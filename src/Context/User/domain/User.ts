@@ -1,0 +1,110 @@
+import { UserEmail } from "./value-objects/UserEmail";
+import { UserEmailVerified } from "./value-objects/UserEmailVerified";
+import { UserFirstName } from "./value-objects/UserFirstName";
+import { UserId } from "./value-objects/UserId";
+import { UserLastName } from "./value-objects/UserLastName";
+import { UserPassword } from "./value-objects/UserPassword";
+import { UserPhone } from "./value-objects/UserPhone";
+import { UserStatus } from "./value-objects/UserStatus";
+
+export const enum UserStatusEnum {
+  INACTIVE,
+  ACTIVE,
+  IN_REGISTRATION,
+}
+
+export type UserProperties = {
+  id: UserId;
+  first_name: UserFirstName;
+  last_name: UserLastName;
+  email: UserEmail;
+  password: UserPassword;
+  phone: UserPhone;
+  status: UserStatus;
+  email_verified: UserEmailVerified;
+};
+
+export type UserPrimitives = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  phone: string;
+  status: number;
+  email_verified: boolean;
+};
+
+export class User {
+  readonly id: UserId;
+  readonly first_name: UserFirstName;
+  readonly last_name: UserLastName;
+  readonly email: UserEmail;
+  readonly password: UserPassword;
+  readonly phone: UserPhone;
+  readonly status: UserStatus;
+  readonly email_verified: UserEmailVerified;
+
+  constructor({
+    id,
+    first_name,
+    last_name,
+    email,
+    password,
+    phone,
+    status,
+    email_verified,
+  }: UserProperties) {
+    this.id = id;
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+    this.status = status;
+    this.email_verified = email_verified;
+  }
+
+  static create(properties: UserProperties): User {
+    const user = new User(properties);
+
+    //register the created.user event
+
+    return user;
+  }
+
+  static fromPrimitives({
+    id,
+    first_name,
+    last_name,
+    email,
+    password,
+    phone,
+    email_verified,
+    status,
+  }: UserPrimitives) {
+    return new User({
+      id: new UserId(id),
+      first_name: new UserFirstName(first_name),
+      last_name: new UserLastName(last_name),
+      phone: new UserPhone(phone),
+      email: new UserEmail(email),
+      email_verified: new UserEmailVerified(email_verified),
+      password: new UserPassword(password),
+      status: UserStatus.fromPrimitive(status),
+    });
+  }
+
+  toPrimitives(): UserPrimitives {
+    return {
+      id: this.id.value,
+      first_name: this.first_name.value,
+      last_name: this.last_name.value,
+      email: this.email.value,
+      password: this.password.value,
+      phone: this.phone.value,
+      status: this.status.value,
+      email_verified: this.email_verified.value,
+    };
+  }
+}
