@@ -9,7 +9,7 @@ export class TypeOrmClientFactory {
         name: contextName,
         type: "postgres",
         host: "localhost",
-        port: 5432,
+        port: 5433,
         username: "mitienda",
         password: "password",
         database: "mitienda_local",

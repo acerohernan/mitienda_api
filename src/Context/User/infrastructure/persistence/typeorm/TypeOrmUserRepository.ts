@@ -16,11 +16,10 @@ export class TypeOrmUserRepository
   protected entitySchema(): EntitySchema<User> {
     return UserEntity;
   }
-  async searchByCriteria(criteria: Criteria): Promise<User[]> {
-    return [];
+  async matching(criteria: Criteria): Promise<User[]> {
+    return this.searchByCriteria(criteria);
   }
   async save(user: User): Promise<void> {
-    console.log(user.toPrimitives());
     await this.persist(user);
   }
   search(userId: UserId): Promise<Nullable<User>> {

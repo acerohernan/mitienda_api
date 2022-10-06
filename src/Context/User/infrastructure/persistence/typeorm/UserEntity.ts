@@ -28,7 +28,6 @@ export const UserEntity = new EntitySchema<User>({
     },
     status: {
       type: Number,
-
       default: 2,
     },
     password: {

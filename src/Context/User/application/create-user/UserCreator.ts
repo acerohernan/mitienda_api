@@ -1,9 +1,11 @@
 import { inject, injectable } from "inversify";
 import { CONTAINER_TYPES } from "../../../../app/dependency-injection/types";
 import { Criteria } from "../../../Shared/domain/criteria/Criteria";
+import { Filter } from "../../../Shared/domain/criteria/Filter";
 import { Operator } from "../../../Shared/domain/criteria/FilterOperator";
 import { Filters } from "../../../Shared/domain/criteria/Filters";
 import { Order } from "../../../Shared/domain/criteria/Order";
+import { DuplicatedEntityException } from "../../../Shared/domain/exceptions/DuplicatedEntityException";
 import { UserId } from "../../../Shared/domain/UserId";
 import { Uuid } from "../../../Shared/domain/Uuid";
 import { UserRepository } from "../../domain/ioc/UserRepository";
@@ -55,22 +57,29 @@ export class UserCreator {
     this.repository.save(user);
 
     /* Send all the events from the User Agregate */
+    //TODO
     /* Send to the user a link to complete his registration */
+    //TODO
   }
 
   private async verifyIfExistsAUserWithTheSameEmail(
     email: string
   ): Promise<void> {
-    const filters = Filters.fromValues([
-      new Map<string, string>([
-        ["field", "email"],
-        ["operator", Operator.EQUAL],
-        ["value", email],
-      ]),
-    ]);
-    const criteria = new Criteria(filters, Order.none(), 1);
-    const existsUser = await this.repository.searchByCriteria(criteria);
+    const filters: Array<Filter> = [
+      Filter.fromValues(
+        new Map([
+          ["field", "email"],
+          ["operator", Operator.EQUAL],
+          ["value", email],
+        ])
+      ),
+    ];
+    const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);
+    const users = await this.repository.matching(criteria);
 
-    console.log(existsUser);
+    if (users.length > 0)
+      throw new DuplicatedEntityException(
+        `The email <${email}> is already taken`
+      );
   }
 }

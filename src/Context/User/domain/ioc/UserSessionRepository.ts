@@ -3,6 +3,7 @@ import { UserSession } from "../UserSession";
 import { UserSessionId } from "../value-objects/UserSessionId";
 
 export interface UserSessionRepository {
-  save(user: UserSession): Promise<void>;
-  search(userId: UserSessionId): Promise<Nullable<UserSession>>;
+  save(session: UserSession): Promise<void>;
+  search(userSessionId: UserSessionId): Promise<Nullable<UserSession>>;
+  delete(userSessionId: UserSessionId): Promise<void>;
 }
