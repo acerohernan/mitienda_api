@@ -1,12 +1,14 @@
 import { Container } from "inversify";
-import { TenanCreator } from "../../Context/Tenant/application/TenanCreator";
+import { TypeOrmClientFactory } from "../../Context/Shared/infrastructure/persistence/typeorm/TypeOrmClientFactory";
+import { UserCreator } from "../../Context/User/application/create-user/UserCreator";
+import { UserRepository } from "../../Context/User/domain/ioc/UserRepository";
+import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/TypeOrmUserRepository";
 import { StatusGetController } from "../controllers/status/StatusGetController";
-import { TenantPostController } from "../controllers/tenant/TenantPostController";
 import { CONTAINER_TYPES } from "./types";
 
 const container = new Container();
 
-/* Controllers */
+/* CONTROLLERS */
 
 /**
  * StatusGetController
@@ -16,17 +18,30 @@ container
   .bind<StatusGetController>(CONTAINER_TYPES.StatusGetController)
   .to(StatusGetController);
 
+/* APPLICATION SERVICES */
 /**
- * TenantPostController
- * @param {TenanCreator} tenantCreator
+ * UserCreator
+ * @param {UserRepository} userRepository
+ * @author acerohernan
+ */
+container.bind<UserCreator>(CONTAINER_TYPES.UserCreator).to(UserCreator);
+
+/* INFRASTRUCTURE */
+
+/**
+ * PersistenceClientFactory
  * @author acerohernan
  */
 container
-  .bind<TenantPostController>(CONTAINER_TYPES.TenantPostController)
-  .to(TenantPostController);
+  .bind(CONTAINER_TYPES.PersistenceClientFactory)
+  .to(TypeOrmClientFactory);
 
-/* Application Services */
-
-/* Infraestrcuture */
+/**
+ * UserRepository
+ * @author acerohernan
+ */
+container
+  .bind<UserRepository>(CONTAINER_TYPES.UserRepository)
+  .to(TypeOrmUserRepository);
 
 export default container;

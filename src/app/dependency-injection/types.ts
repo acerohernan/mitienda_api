@@ -1,7 +1,5 @@
-import { TenanCreator } from "../../Context/Tenant/application/TenanCreator";
-
 export const CONTAINER_TYPES = {
-  /* Controllers */
+  /* CONTROLLERS */
 
   /**
    * StatusGetController
@@ -9,10 +7,24 @@ export const CONTAINER_TYPES = {
    */
   StatusGetController: Symbol.for("StatusGetController"),
 
+  /* APPLICATION SERVICES */
   /**
-   * TenantPostController
-   * @param {TenanCreator} tenantCreator
+   * @param {UserRepository} userRepository
    * @author acerohernan
    */
-  TenantPostController: Symbol.for("TenantPostController"),
+  UserCreator: Symbol.for("UserCreator"),
+
+  /* INFRAESTRUCTURE */
+
+  /**
+   * PersistenceClientFactory
+   * @author acerohernan
+   */
+  PersistenceClientFactory: Symbol.for("PersistenceClientFactory"),
+
+  /**
+   * UserRepository
+   * @author acerohernan
+   */
+  UserRepository: Symbol.for("UserRepository"),
 };

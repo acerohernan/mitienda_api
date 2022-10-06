@@ -1,3 +1,3 @@
-import { StringValueObject } from "../../../Shared/domain/StringValueObject";
+import { StringNullableValueObject } from "../../../Shared/domain/StringNullableValueObject";
 
-export class UserLastName extends StringValueObject {}
+export class UserLastName extends StringNullableValueObject {}

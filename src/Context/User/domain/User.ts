@@ -1,7 +1,7 @@
+import { UserId } from "../../Shared/domain/UserId";
 import { UserEmail } from "./value-objects/UserEmail";
 import { UserEmailVerified } from "./value-objects/UserEmailVerified";
 import { UserFirstName } from "./value-objects/UserFirstName";
-import { UserId } from "./value-objects/UserId";
 import { UserLastName } from "./value-objects/UserLastName";
 import { UserPassword } from "./value-objects/UserPassword";
 import { UserPhone } from "./value-objects/UserPhone";
@@ -26,8 +26,8 @@ export type UserProperties = {
 
 export type UserPrimitives = {
   id: string;
-  first_name: string;
-  last_name: string;
+  first_name: string | null;
+  last_name: string | null;
   email: string;
   password: string;
   phone: string;
