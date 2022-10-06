@@ -4,7 +4,6 @@ import { User } from "../../../domain/User";
 export const UserEntity = new EntitySchema<User>({
   name: "User",
   tableName: "users",
-  target: User,
   columns: {
     id: {
       type: String,
@@ -12,12 +11,12 @@ export const UserEntity = new EntitySchema<User>({
     },
     first_name: {
       type: String,
-      length: 100,
+
       nullable: true,
     },
     last_name: {
       type: String,
-      length: 100,
+
       nullable: true,
     },
     email: {
@@ -26,11 +25,10 @@ export const UserEntity = new EntitySchema<User>({
     },
     phone: {
       type: String,
-      length: 20,
     },
     status: {
       type: Number,
-      length: 1,
+
       default: 2,
     },
     password: {

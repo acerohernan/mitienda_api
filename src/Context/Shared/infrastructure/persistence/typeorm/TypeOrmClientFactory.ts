@@ -20,8 +20,9 @@ export class TypeOrmClientFactory {
         synchronize: true /* Disabled from producction */,
       });
 
+      console.log("Creando el cliente...");
       const connection = await appDataSource.initialize();
-
+      console.log("Cliente creado");
       return connection;
     } catch (error) {
       console.log(error);

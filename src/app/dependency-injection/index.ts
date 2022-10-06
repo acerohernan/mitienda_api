@@ -4,6 +4,7 @@ import { UserCreator } from "../../Context/User/application/create-user/UserCrea
 import { UserRepository } from "../../Context/User/domain/ioc/UserRepository";
 import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/TypeOrmUserRepository";
 import { StatusGetController } from "../controllers/status/StatusGetController";
+import { UserPostController } from "../controllers/user/UserPostController";
 import { CONTAINER_TYPES } from "./types";
 
 const container = new Container();
@@ -17,6 +18,14 @@ const container = new Container();
 container
   .bind<StatusGetController>(CONTAINER_TYPES.StatusGetController)
   .to(StatusGetController);
+
+/**
+ * UserPostController
+ * @author acerohernan
+ */
+container
+  .bind<UserPostController>(CONTAINER_TYPES.UserPostController)
+  .to(UserPostController);
 
 /* APPLICATION SERVICES */
 /**

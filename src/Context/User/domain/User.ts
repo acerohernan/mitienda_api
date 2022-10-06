@@ -1,3 +1,4 @@
+import { AgregateRoot } from "../../Shared/domain/AgregateRoot";
 import { UserId } from "../../Shared/domain/UserId";
 import { UserEmail } from "./value-objects/UserEmail";
 import { UserEmailVerified } from "./value-objects/UserEmailVerified";
@@ -35,7 +36,7 @@ export type UserPrimitives = {
   email_verified: boolean;
 };
 
-export class User {
+export class User extends AgregateRoot {
   readonly id: UserId;
   readonly first_name: UserFirstName;
   readonly last_name: UserLastName;
@@ -55,6 +56,7 @@ export class User {
     status,
     email_verified,
   }: UserProperties) {
+    super();
     this.id = id;
     this.first_name = first_name;
     this.last_name = last_name;

@@ -7,6 +7,12 @@ export const CONTAINER_TYPES = {
    */
   StatusGetController: Symbol.for("StatusGetController"),
 
+  /**
+   * UserPostController
+   * @author acerohernan
+   */
+  UserPostController: Symbol.for("UserPostController"),
+
   /* APPLICATION SERVICES */
   /**
    * @param {UserRepository} userRepository
