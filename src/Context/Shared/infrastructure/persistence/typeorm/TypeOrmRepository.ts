@@ -3,19 +3,27 @@ import { DataSource, EntitySchema, Repository } from "typeorm";
 import { AgregateRoot } from "../../../domain/AgregateRoot";
 import { Criteria } from "../../../domain/criteria/Criteria";
 import { Filter } from "../../../domain/criteria/Filter";
+import { Uuid } from "../../../domain/Uuid";
 import { TypeOrmClientFactory } from "./TypeOrmClientFactory";
 
+interface AggregatePrimitives {
+  id: string;
+}
+
 @injectable()
-export abstract class TypeOrmRepository<T extends AgregateRoot> {
+export abstract class TypeOrmRepository<
+  T extends AgregateRoot,
+  Primitives extends AggregatePrimitives
+> {
   constructor() {}
 
-  protected abstract entitySchema(): EntitySchema<T>;
+  protected abstract entitySchema(): EntitySchema<Primitives>;
 
   protected client(): Promise<DataSource> {
-    return TypeOrmClientFactory.createClient("mitienda");
+    return TypeOrmClientFactory.getClient();
   }
 
-  protected async repository(): Promise<Repository<T>> {
+  protected async repository(): Promise<Repository<Primitives>> {
     return (await this.client()).getRepository(this.entitySchema());
   }
 
@@ -24,7 +32,14 @@ export abstract class TypeOrmRepository<T extends AgregateRoot> {
     await repository.save(aggregateRoot.toPrimitives() as any);
   }
 
-  protected async searchByCriteria(criteria: Criteria): Promise<Array<T>> {
+  protected async remove(id: Uuid): Promise<void> {
+    const repository = await this.repository();
+    await repository.delete(id.value);
+  }
+
+  protected async searchByCriteria(
+    criteria: Criteria
+  ): Promise<Array<Primitives>> {
     const repository = await this.repository();
 
     const { query, parameters, sortBy, order, offset, limit } =
@@ -50,7 +65,7 @@ export abstract class TypeOrmRepository<T extends AgregateRoot> {
   } {
     let query = "";
     let parameters = {};
-    let sortBy = "status";
+    let sortBy = "";
     let order: "ASC" | "DESC" = "ASC";
     let offset = criteria.offset || 0;
     let limit = criteria.limit || 100;

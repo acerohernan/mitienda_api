@@ -23,7 +23,6 @@ export const UserSessionEntity = new EntitySchema<UserSession>({
     },
     expiration_date: {
       type: Date,
-      default: new Date(),
     },
   },
 });

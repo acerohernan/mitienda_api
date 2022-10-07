@@ -75,6 +75,10 @@ export class User extends AgregateRoot {
     return user;
   }
 
+  public matchesPassword(candiatePassword: string): boolean {
+    return this.password.value === candiatePassword;
+  }
+
   static fromPrimitives({
     id,
     first_name,

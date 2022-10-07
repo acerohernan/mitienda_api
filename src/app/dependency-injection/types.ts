@@ -1,3 +1,6 @@
+import { UserCreator } from "../../Context/User/application/create-user/UserCreator";
+import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSessionRepository";
+
 export const CONTAINER_TYPES = {
   /* CONTROLLERS */
 
@@ -9,9 +12,17 @@ export const CONTAINER_TYPES = {
 
   /**
    * UserPostController
+   * @param {UserCreator} userCreator
    * @author acerohernan
    */
   UserPostController: Symbol.for("UserPostController"),
+
+  /**
+   * UserSessionPostController
+   * @param {UserSessionCreator} UserSessionCreator
+   * @author acerohernan
+   */
+  UserSessionPostController: Symbol.for("UserSessionPostController"),
 
   /* APPLICATION SERVICES */
   /**
@@ -19,6 +30,13 @@ export const CONTAINER_TYPES = {
    * @author acerohernan
    */
   UserCreator: Symbol.for("UserCreator"),
+
+  /**
+   * @param {UserRepository} userRepository
+   * @param {UserSessionRepository} userSessionRepository
+   * @author acerohernan
+   */
+  UserSessionCreator: Symbol.for("UserSessionCreator"),
 
   /* INFRAESTRUCTURE */
 
@@ -33,4 +51,10 @@ export const CONTAINER_TYPES = {
    * @author acerohernan
    */
   UserRepository: Symbol.for("UserRepository"),
+
+  /**
+   * UserSessionRepository
+   * @author acerohernan
+   */
+  UserSessionRepository: Symbol.for("UserSessionRepository"),
 };

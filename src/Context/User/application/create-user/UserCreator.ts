@@ -66,13 +66,11 @@ export class UserCreator {
     email: string
   ): Promise<void> {
     const filters: Array<Filter> = [
-      Filter.fromValues(
-        new Map([
-          ["field", "email"],
-          ["operator", Operator.EQUAL],
-          ["value", email],
-        ])
-      ),
+      Filter.fromValues({
+        field: "email",
+        operator: Operator.EQUAL,
+        value: email,
+      }),
     ];
     const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);
     const users = await this.repository.matching(criteria);
