@@ -1,25 +1,28 @@
-import { AfterAll, BeforeAll, Given, Then } from "@cucumber/cucumber";
+import { Given, Then } from "@cucumber/cucumber";
+import assert from "assert";
 import request from "supertest";
-import { MiTiendaApp } from "../../../../src/app/MiTiendaApp";
+import { application } from "./hooks.steps";
 
 let _request: request.Test;
-let application: MiTiendaApp;
-//let _response: request.Response;
+let _response: request.Response;
 
 Given("I send a GET request to {string}", (route: string) => {
   _request = request(application.httpServer).get(route);
 });
 
+Given(
+  "I send a POST request to {string} with body:",
+  (route: string, body: string) => {
+    _request = request(application.httpServer)
+      .post(route)
+      .send(JSON.parse(body));
+  }
+);
+
 Then("the response status code should be {int}", async (status: number) => {
-  /* _response = */ await _request.expect(status);
+  _response = await _request.expect(status);
 });
 
-/* Initilizatio and kill the app */
-BeforeAll(async () => {
-  application = new MiTiendaApp();
-  await application.start();
-});
-
-AfterAll(async () => {
-  await application.stop();
+Then("the response should be empty", () => {
+  assert.deepStrictEqual(_response.body, {});
 });

@@ -1,4 +1,5 @@
 import { inject, injectable } from "inversify";
+import jwt from "jsonwebtoken";
 import { omit } from "lodash";
 import { CONTAINER_TYPES } from "../../../../app/dependency-injection/types";
 import { Criteria } from "../../../Shared/domain/criteria/Criteria";
@@ -13,6 +14,7 @@ import { UserRepository } from "../../domain/ioc/UserRepository";
 import { UserSessionRepository } from "../../domain/ioc/UserSessionRepository";
 import { User } from "../../domain/User";
 import { UserSession } from "../../domain/UserSession";
+import { UserPassword } from "../../domain/value-objects/UserPassword";
 import { UserSessionId } from "../../domain/value-objects/UserSessionId";
 
 type Params = {
@@ -37,7 +39,7 @@ export class UserSessionCreator {
 
     const user = await this.getUserByEmail(email);
 
-    this.verifyIfThePasswordMatch(user, password);
+    await this.verifyIfThePasswordMatch(user, password);
 
     const session = await this.createUserSession(user, "agent", "ip");
 
@@ -51,7 +53,6 @@ export class UserSessionCreator {
     return {
       ...tokens,
       user: omit(user.toPrimitives(), ["password"]),
-      session: session.toPrimitives(),
     };
   }
 
@@ -64,33 +65,24 @@ export class UserSessionCreator {
       }),
     ];
     const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);
-    const users = await this.userRepository.matching(criteria);
+    const user = (await this.userRepository.matching(criteria))[0];
 
-    if (users.length === 0)
+    if (!user)
       throw new NotFoundException(`The user with email ${email} not exists`);
-
-    const user = users[0];
 
     return user;
   }
 
-  private verifyIfThePasswordMatch(
+  private async verifyIfThePasswordMatch(
     user: User,
     passwordCandidate: string
-  ): void {
-    const isValid = user.matchesPassword(passwordCandidate);
+  ): Promise<void> {
+    const isValid = await UserPassword.compareHash(
+      passwordCandidate,
+      user.password.value
+    );
 
     if (!isValid) throw new UnathorizedException("The credentials are invalid");
-  }
-
-  private createTheAuthorizationTokens(
-    user_id: string,
-    session_id: string
-  ): { access: string; refresh: string } {
-    return {
-      access: "access",
-      refresh: "refresh",
-    };
   }
 
   private async createUserSession(
@@ -126,5 +118,33 @@ export class UserSessionCreator {
     });
 
     return session;
+  }
+
+  private createTheAuthorizationTokens(
+    user_id: string,
+    session_id: string
+  ): { accessToken: string; refreshToken: string } {
+    const accessToken = jwt.sign(
+      { user: user_id, session: session_id },
+      "secret",
+      {
+        algorithm: "HS256",
+        expiresIn: "1d",
+      }
+    );
+
+    const refreshToken = jwt.sign(
+      { user: user_id, session: session_id },
+      "secret",
+      {
+        algorithm: "HS256",
+        expiresIn: "7d",
+      }
+    );
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }

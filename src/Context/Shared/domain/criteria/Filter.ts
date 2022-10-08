@@ -2,6 +2,12 @@ import { FilterField } from "./FilterField";
 import { FilterOperator } from "./FilterOperator";
 import { FilterValue } from "./FilterValue";
 
+export type FilterPrimitives = {
+  field: string;
+  operator: string;
+  value: string;
+};
+
 export class Filter {
   constructor(
     readonly field: FilterField,
@@ -9,15 +15,7 @@ export class Filter {
     readonly value: FilterValue
   ) {}
 
-  static fromValues({
-    field,
-    operator,
-    value,
-  }: {
-    field: string;
-    operator: string;
-    value: string;
-  }) {
+  static fromValues({ field, operator, value }: FilterPrimitives) {
     return new Filter(
       new FilterField(field),
       FilterOperator.fromValue(operator),

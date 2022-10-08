@@ -1,4 +1,5 @@
 import { Container } from "inversify";
+import { TypeOrmEnvironmentArranger } from "../../../tests/Context/Shared/infrastructure/typeorm/TypeOrmEnvironmentArranger";
 import { TypeOrmClientFactory } from "../../Context/Shared/infrastructure/persistence/typeorm/TypeOrmClientFactory";
 import { UserSessionCreator } from "../../Context/User/application/create-user-session/UserSessionCreator";
 import { UserCreator } from "../../Context/User/application/create-user/UserCreator";
@@ -9,6 +10,7 @@ import { TypeOrmUserSessionRepository } from "../../Context/User/infrastructure/
 import { StatusGetController } from "../controllers/status/StatusGetController";
 import { UserPostController } from "../controllers/user/UserPostController";
 import { UserSessionPostController } from "../controllers/user/UserSessionPostController";
+
 import { CONTAINER_TYPES } from "./types";
 
 const container = new Container();
@@ -68,6 +70,14 @@ container
 container
   .bind(CONTAINER_TYPES.PersistenceClientFactory)
   .to(TypeOrmClientFactory);
+
+/**
+ * EnvironmentArranger
+ * @author acerohernan
+ */
+container
+  .bind(CONTAINER_TYPES.EnvironmentArranger)
+  .to(TypeOrmEnvironmentArranger);
 
 /**
  * UserRepository

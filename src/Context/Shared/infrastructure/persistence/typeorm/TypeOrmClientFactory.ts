@@ -23,9 +23,9 @@ export class TypeOrmClientFactory {
       });
 
       console.log("Initializing the TypeORM client...");
-      const connection = await appDataSource.initialize();
+      const client = await appDataSource.initialize();
       console.log("TypeORM Client initialized");
-      return connection;
+      return client;
     } catch (error) {
       console.log(error);
       throw new Error(

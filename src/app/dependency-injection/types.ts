@@ -1,6 +1,3 @@
-import { UserCreator } from "../../Context/User/application/create-user/UserCreator";
-import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSessionRepository";
-
 export const CONTAINER_TYPES = {
   /* CONTROLLERS */
 
@@ -45,6 +42,12 @@ export const CONTAINER_TYPES = {
    * @author acerohernan
    */
   PersistenceClientFactory: Symbol.for("PersistenceClientFactory"),
+
+  /**
+   * EnvironmentArranger
+   * @author acerohernan
+   */
+  EnvironmentArranger: Symbol.for("EnvironmentArranger"),
 
   /**
    * UserRepository
