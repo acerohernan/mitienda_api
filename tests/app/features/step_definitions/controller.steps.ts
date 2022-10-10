@@ -12,10 +12,10 @@ Given("I send a GET request to {string}", (route: string) => {
 
 Given(
   "I send a POST request to {string} with body:",
-  (route: string, body: string) => {
-    _request = request(application.httpServer)
+  async (route: string, body: string) => {
+    await (_request = request(application.httpServer)
       .post(route)
-      .send(JSON.parse(body));
+      .send(JSON.parse(body)));
   }
 );
 
@@ -25,4 +25,17 @@ Then("the response status code should be {int}", async (status: number) => {
 
 Then("the response should be empty", () => {
   assert.deepStrictEqual(_response.body, {});
+});
+
+Then("the response should have an error message", () => {
+  if (_response.body["error"]) return;
+
+  throw new Error("The response not contains an error field");
+});
+
+Then("the response should have authorization tokens", async () => {
+  if (_response.body["accessToken"] && _response.body["refreshToken"])
+    return true;
+
+  throw new Error("The body not have the authorization tokens");
 });

@@ -8,9 +8,18 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mitienda_local
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres-vol:/var/lib/postgresql/data
+  postgres-db-test:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=mitienda_test
+      - POSTGRES_PASSWORD=password_test
+      - POSTGRES_DB=mitienda_local_test
+    ports:
+      - "5433:5432"
 
 volumes:
   postgres-vol:

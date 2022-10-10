@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { DataSource } from "typeorm";
+import { config } from "../../config";
 
 @injectable()
 export class TypeOrmClientFactory {
@@ -9,12 +10,12 @@ export class TypeOrmClientFactory {
     try {
       const appDataSource = new DataSource({
         name: "MiTiendaAdmin",
-        type: "postgres",
-        host: "localhost",
-        port: 5433,
-        username: "mitienda",
-        password: "password",
-        database: "mitienda_local",
+        type: config.typeorm.type,
+        host: config.typeorm.host,
+        port: config.typeorm.port,
+        username: config.typeorm.username,
+        password: config.typeorm.password,
+        database: config.typeorm.database,
         entities: [
           __dirname +
             "/../../../../**/**/infrastructure/persistence/typeorm/*{.js,.ts}",

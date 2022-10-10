@@ -14,6 +14,7 @@ import { UserRepository } from "../../domain/ioc/UserRepository";
 import { UserSessionRepository } from "../../domain/ioc/UserSessionRepository";
 import { User } from "../../domain/User";
 import { UserSession } from "../../domain/UserSession";
+import { UserEmail } from "../../domain/value-objects/UserEmail";
 import { UserPassword } from "../../domain/value-objects/UserPassword";
 import { UserSessionId } from "../../domain/value-objects/UserSessionId";
 
@@ -57,11 +58,12 @@ export class UserSessionCreator {
   }
 
   private async getUserByEmail(email: string): Promise<User> {
+    const userEmail = new UserEmail(email);
     const filters: Array<Filter> = [
       Filter.fromValues({
         field: "email",
         operator: Operator.EQUAL,
-        value: email,
+        value: userEmail.value,
       }),
     ];
     const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);

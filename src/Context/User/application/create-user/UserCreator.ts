@@ -63,11 +63,13 @@ export class UserCreator {
   private async verifyIfExistsAUserWithTheSameEmail(
     email: string
   ): Promise<void> {
+    const userEmail = new UserEmail(email);
+
     const filters: Array<Filter> = [
       Filter.fromValues({
         field: "email",
         operator: Operator.EQUAL,
-        value: email,
+        value: userEmail.value,
       }),
     ];
     const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);
