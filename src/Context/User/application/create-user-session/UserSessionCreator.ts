@@ -12,9 +12,9 @@ import { UnathorizedException } from "../../../Shared/domain/exceptions/Unathori
 import { Uuid } from "../../../Shared/domain/Uuid";
 import { UserRepository } from "../../domain/ioc/UserRepository";
 import { UserSessionRepository } from "../../domain/ioc/UserSessionRepository";
+import { UserEmailFinder } from "../../domain/services/UserEmailFinder";
 import { User } from "../../domain/User";
 import { UserSession } from "../../domain/UserSession";
-import { UserEmail } from "../../domain/value-objects/UserEmail";
 import { UserPassword } from "../../domain/value-objects/UserPassword";
 import { UserSessionId } from "../../domain/value-objects/UserSessionId";
 
@@ -27,13 +27,16 @@ type Params = {
 
 @injectable()
 export class UserSessionCreator {
-  /* Change the inject type */
+  private userEmailFinder: UserEmailFinder;
+
   constructor(
     @inject(CONTAINER_TYPES.UserSessionRepository)
     private sessionRepository: UserSessionRepository,
     @inject(CONTAINER_TYPES.UserRepository)
     private userRepository: UserRepository
-  ) {}
+  ) {
+    this.userEmailFinder = new UserEmailFinder(this.userRepository);
+  }
 
   async run(params: Params) {
     const { email, password } = params;
@@ -58,19 +61,12 @@ export class UserSessionCreator {
   }
 
   private async getUserByEmail(email: string): Promise<User> {
-    const userEmail = new UserEmail(email);
-    const filters: Array<Filter> = [
-      Filter.fromValues({
-        field: "email",
-        operator: Operator.EQUAL,
-        value: userEmail.value,
-      }),
-    ];
-    const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);
-    const user = (await this.userRepository.matching(criteria))[0];
+    const user = await this.userEmailFinder.run(email);
 
-    if (!user)
+    if (!user) {
+      console.log("Noexiste este", email);
       throw new NotFoundException(`The user with email ${email} not exists`);
+    }
 
     return user;
   }

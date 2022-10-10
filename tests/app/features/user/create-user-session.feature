@@ -7,7 +7,7 @@ Feature: Create user session
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@test.com",
+            "email": "test@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -15,26 +15,27 @@ Feature: Create user session
         Then I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test@test.com",
+            "email": "test@gmail.com",
             "password": "Password1"
         }
         """
         And the response status code should be 200
-        And the response should have authorization tokens
+        And the response should have the property "accessToken"
+        And the response should have the property "refreshToken"
 
     Scenario: An incorrect credentials
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@test.com",
-            "password": "password",
+            "email": "test@gmail.com",
+            "password": "Password1",
             "phone": "999113934"
         }
         """
         Then I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test@test.com",
+            "email": "test@gmail.com",
             "password": "bad password"
         }
         """
@@ -44,9 +45,9 @@ Feature: Create user session
     Scenario:  Empty credentials
         Given I send a POST request to "/user/auth/signup" with body:
         """
-        {
-            "email": "test@test.com",
-            "password": "password",
+        { 
+            "email": "test@gmail.com",
+            "password": "Password1",
             "phone": "999113934"
         }
         """

@@ -1,18 +1,18 @@
 import { injectable } from "inversify";
 import { EntitySchema } from "typeorm";
-import { Criteria } from "../../../../Shared/domain/criteria/Criteria";
-import { Filter } from "../../../../Shared/domain/criteria/Filter";
-import { Operator } from "../../../../Shared/domain/criteria/FilterOperator";
-import { Filters } from "../../../../Shared/domain/criteria/Filters";
-import { Order } from "../../../../Shared/domain/criteria/Order";
-import { Nullable } from "../../../../Shared/domain/Nullable";
-import { TypeOrmRepository } from "../../../../Shared/infrastructure/persistence/typeorm/TypeOrmRepository";
-import { UserSessionRepository } from "../../../domain/ioc/UserSessionRepository";
+import { Criteria } from "../../../../../Shared/domain/criteria/Criteria";
+import { Filter } from "../../../../../Shared/domain/criteria/Filter";
+import { Operator } from "../../../../../Shared/domain/criteria/FilterOperator";
+import { Filters } from "../../../../../Shared/domain/criteria/Filters";
+import { Order } from "../../../../../Shared/domain/criteria/Order";
+import { Nullable } from "../../../../../Shared/domain/Nullable";
+import { TypeOrmRepository } from "../../../../../Shared/infrastructure/persistence/typeorm/TypeOrmRepository";
+import { UserSessionRepository } from "../../../../domain/ioc/UserSessionRepository";
 import {
   UserSession,
   UserSessionPrimitives,
-} from "../../../domain/UserSession";
-import { UserSessionId } from "../../../domain/value-objects/UserSessionId";
+} from "../../../../domain/UserSession";
+import { UserSessionId } from "../../../../domain/value-objects/UserSessionId";
 import { UserSessionEntity } from "./UserSessionEntity";
 
 @injectable()

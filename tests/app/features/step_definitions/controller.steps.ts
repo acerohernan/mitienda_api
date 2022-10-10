@@ -21,6 +21,14 @@ Given(
 
 Then("the response status code should be {int}", async (status: number) => {
   _response = await _request.expect(status);
+
+  const responseStatus = (await _request).statusCode;
+
+  assert.deepStrictEqual(
+    status,
+    responseStatus,
+    `The response status code was ${responseStatus}`
+  );
 });
 
 Then("the response should be empty", () => {
@@ -30,12 +38,11 @@ Then("the response should be empty", () => {
 Then("the response should have an error message", () => {
   if (_response.body["error"]) return;
 
-  throw new Error("The response not contains an error field");
+  throw new Error("The response not contains an error message");
 });
 
-Then("the response should have authorization tokens", async () => {
-  if (_response.body["accessToken"] && _response.body["refreshToken"])
-    return true;
+Then("the response should have the property {string}", (property: string) => {
+  if (_response.body[property]) return true;
 
-  throw new Error("The body not have the authorization tokens");
+  throw new Error(`The response not have the property <${property}>`);
 });

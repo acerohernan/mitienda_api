@@ -18,7 +18,7 @@ export class TypeOrmClientFactory {
         database: config.typeorm.database,
         entities: [
           __dirname +
-            "/../../../../**/**/infrastructure/persistence/typeorm/*{.js,.ts}",
+            "/../../../../**/**/infrastructure/persistence/typeorm/**/*{.js,.ts}",
         ],
         synchronize: true /* Disabled from producction */,
       });

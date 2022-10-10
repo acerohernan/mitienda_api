@@ -1,14 +1,10 @@
 import { inject, injectable } from "inversify";
 import { CONTAINER_TYPES } from "../../../../app/dependency-injection/types";
-import { Criteria } from "../../../Shared/domain/criteria/Criteria";
-import { Filter } from "../../../Shared/domain/criteria/Filter";
-import { Operator } from "../../../Shared/domain/criteria/FilterOperator";
-import { Filters } from "../../../Shared/domain/criteria/Filters";
-import { Order } from "../../../Shared/domain/criteria/Order";
 import { DuplicatedEntityException } from "../../../Shared/domain/exceptions/DuplicatedEntityException";
 import { UserId } from "../../../Shared/domain/UserId";
 import { Uuid } from "../../../Shared/domain/Uuid";
 import { UserRepository } from "../../domain/ioc/UserRepository";
+import { UserEmailFinder } from "../../domain/services/UserEmailFinder";
 import { User, UserStatusEnum } from "../../domain/User";
 import { UserEmail } from "../../domain/value-objects/UserEmail";
 import { UserEmailVerified } from "../../domain/value-objects/UserEmailVerified";
@@ -25,9 +21,13 @@ type Params = {
 
 @injectable()
 export class UserCreator {
+  private userEmailFinder: UserEmailFinder;
+
   constructor(
     @inject(CONTAINER_TYPES.UserRepository) private repository: UserRepository
-  ) {}
+  ) {
+    this.userEmailFinder = new UserEmailFinder(this.repository);
+  }
 
   async run(params: Params): Promise<void> {
     await this.verifyIfExistsAUserWithTheSameEmail(params.email);
@@ -63,19 +63,9 @@ export class UserCreator {
   private async verifyIfExistsAUserWithTheSameEmail(
     email: string
   ): Promise<void> {
-    const userEmail = new UserEmail(email);
+    const user = await this.userEmailFinder.run(email);
 
-    const filters: Array<Filter> = [
-      Filter.fromValues({
-        field: "email",
-        operator: Operator.EQUAL,
-        value: userEmail.value,
-      }),
-    ];
-    const criteria = new Criteria(new Filters(filters), Order.none(), 1, 0);
-    const users = await this.repository.matching(criteria);
-
-    if (users.length > 0)
+    if (user)
       throw new DuplicatedEntityException(
         `The email <${email}> is already taken`
       );

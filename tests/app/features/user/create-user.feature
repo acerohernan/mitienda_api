@@ -7,7 +7,7 @@ Feature: Create User
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "demo@test.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -15,6 +15,18 @@ Feature: Create User
         Then the response status code should be 201
         And the response should be empty
     
+    Scenario: A invalid email
+        Given I send a POST request to "/user/auth/signup" with body:
+        """
+        {
+            "email": "asdsadas",
+            "password": "Password1",
+            "phone": "999113934"
+        }
+        """
+        Then the response status code should be 400
+        And the response should have an error message
+
     Scenario: A invalid password
         Given I send a POST request to "/user/auth/signup" with body:
         """
@@ -22,6 +34,15 @@ Feature: Create User
             "email": "demo@test.com",
             "password": "p",
             "phone": "999113934"
+        }
+        """
+        Then the response status code should be 400
+        And the response should have an error message
+
+    Scenario: A invalid request
+        Given I send a POST request to "/user/auth/signup" with body:
+        """
+        {
         }
         """
         Then the response status code should be 400

@@ -1,11 +1,11 @@
 import { injectable } from "inversify";
 import { EntitySchema } from "typeorm";
-import { Criteria } from "../../../../Shared/domain/criteria/Criteria";
-import { Nullable } from "../../../../Shared/domain/Nullable";
-import { UserId } from "../../../../Shared/domain/UserId";
-import { TypeOrmRepository } from "../../../../Shared/infrastructure/persistence/typeorm/TypeOrmRepository";
-import { UserRepository } from "../../../domain/ioc/UserRepository";
-import { User, UserPrimitives } from "../../../domain/User";
+import { Criteria } from "../../../../../Shared/domain/criteria/Criteria";
+import { Nullable } from "../../../../../Shared/domain/Nullable";
+import { UserId } from "../../../../../Shared/domain/UserId";
+import { TypeOrmRepository } from "../../../../../Shared/infrastructure/persistence/typeorm/TypeOrmRepository";
+import { UserRepository } from "../../../../domain/ioc/UserRepository";
+import { User, UserPrimitives } from "../../../../domain/User";
 import { UserEntity } from "./UserEntity";
 
 @injectable()
