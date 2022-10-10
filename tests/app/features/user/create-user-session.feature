@@ -8,7 +8,7 @@ Feature: Create user session
         """
         {
             "email": "test@test.com",
-            "password": "password",
+            "password": "Password1",
             "phone": "999113934"
         }
         """
@@ -16,7 +16,7 @@ Feature: Create user session
         """
         {
             "email": "test@test.com",
-            "password": "password"
+            "password": "Password1"
         }
         """
         And the response status code should be 200
