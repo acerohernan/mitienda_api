@@ -13,7 +13,7 @@ Given("I send a GET request to {string}", (route: string) => {
 Given(
   "I send a POST request to {string} with body:",
   async (route: string, body: string) => {
-    await (_request = request(application.httpServer)
+    _response = await (_request = request(application.httpServer)
       .post(route)
       .send(JSON.parse(body)));
   }

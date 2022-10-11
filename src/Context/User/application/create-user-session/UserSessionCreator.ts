@@ -63,10 +63,8 @@ export class UserSessionCreator {
   private async getUserByEmail(email: string): Promise<User> {
     const user = await this.userEmailFinder.run(email);
 
-    if (!user) {
-      console.log("Noexiste este", email);
+    if (!user)
       throw new NotFoundException(`The user with email ${email} not exists`);
-    }
 
     return user;
   }
@@ -75,7 +73,7 @@ export class UserSessionCreator {
     user: User,
     passwordCandidate: string
   ): Promise<void> {
-    const isValid = await UserPassword.compareHash(
+    const isValid = UserPassword.compareHash(
       passwordCandidate,
       user.password.value
     );

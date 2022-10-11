@@ -7,7 +7,7 @@ Feature: Create a recover password request
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@test.com",
+            "email": "test@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -15,8 +15,26 @@ Feature: Create a recover password request
         Then I send a POST request to "/user/auth/forgot-password" with body:
         """
         {
-            "email": "test@test.com"
+            "email": "test@gmail.com"
         }
         """
         And the response status code should be 201
         And the response should have the property "code"
+
+    Scenario: A non registered email
+        Given I send a POST request to "/user/auth/forgot-password" with body:
+        """
+        {
+            "email": "non-registered@gmail.com"
+        }
+        """
+        And the response status code should be 404
+        And the response should have an error message
+    
+    Scenario: An empty request
+        Given I send a POST request to "/user/auth/forgot-password" with body:
+        """
+        {}
+        """
+        And the response status code should be 400
+        And the response should have an error message

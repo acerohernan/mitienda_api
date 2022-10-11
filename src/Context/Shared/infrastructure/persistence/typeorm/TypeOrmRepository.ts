@@ -3,6 +3,7 @@ import { DataSource, EntitySchema, Repository } from "typeorm";
 import { AgregateRoot } from "../../../domain/AgregateRoot";
 import { Criteria } from "../../../domain/criteria/Criteria";
 import { Filter } from "../../../domain/criteria/Filter";
+import { Nullable } from "../../../domain/Nullable";
 import { Uuid } from "../../../domain/Uuid";
 import { TypeOrmClientFactory } from "./TypeOrmClientFactory";
 
@@ -30,6 +31,11 @@ export abstract class TypeOrmRepository<
   protected async persist(aggregateRoot: T): Promise<void> {
     const repository = await this.repository();
     await repository.save(aggregateRoot.toPrimitives() as any);
+  }
+
+  protected async searchById(id: Uuid): Promise<Nullable<Primitives>> {
+    const repository = await this.repository();
+    return await repository.findOneBy({ id: id.value as any });
   }
 
   protected async remove(id: Uuid): Promise<void> {

@@ -23,7 +23,7 @@ Feature: Create user session
         And the response should have the property "accessToken"
         And the response should have the property "refreshToken"
 
-    Scenario: An incorrect credentials
+    Scenario: An incorrect password
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
@@ -36,24 +36,29 @@ Feature: Create user session
         """
         {
             "email": "test@gmail.com",
-            "password": "bad password"
+            "password": "bad_password"
         }
         """
         And the response status code should be 401
         And the response should have an error message
-    
-    Scenario:  Empty credentials
-        Given I send a POST request to "/user/auth/signup" with body:
+
+    Scenario: A non registered email
+        Given I send a POST request to "/user/auth/login" with body:
         """
-        { 
-            "email": "test@gmail.com",
-            "password": "Password1",
-            "phone": "999113934"
+        {
+            "email": "non-registered@email.com",
+            "password": "Password1"
         }
         """
-        Then I send a POST request to "/user/auth/login" with body:
+        Then the response status code should be 404
+        And the response should have an error message
+
+
+
+    Scenario:  Empty credentials
+        Given I send a POST request to "/user/auth/login" with body:
         """
         {}
         """
-        And the response status code should be 400
+        Then the response status code should be 400
         And the response should have an error message

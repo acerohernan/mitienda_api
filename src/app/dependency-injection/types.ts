@@ -30,6 +30,24 @@ export const CONTAINER_TYPES = {
     "UserRecoverPasswordRequestPostController"
   ),
 
+  /**
+   * UserRecoverPasswordRequestGetController
+   * @param {UserRecoverPasswordRequestVerifier} userRecoverPasswordRequestVerifier
+   * @author acerohernan
+   */
+  UserRecoverPasswordRequestGetController: Symbol.for(
+    "UserRecoverPasswordRequestGetController"
+  ),
+
+  /**
+   * UserRestorePasswordPostController
+   * @param {UserPasswordRestorer} userPasswordRestorer
+   * @author acerohernan
+   */
+  UserRestorePasswordPostController: Symbol.for(
+    "UserRestorePasswordPostController"
+  ),
+
   /* APPLICATION SERVICES */
   /**
    * @param {UserRepository} userRepository
@@ -46,12 +64,26 @@ export const CONTAINER_TYPES = {
 
   /**
    * @param {UserRepository} userRepository
-   * @param {UserRecoverPasswordRequestRespository} UserRecoverPasswordRequestRespository
+   * @param {UserRecoverPasswordRequestRespository} userRecoverPasswordRequestRespository
    * @author acerohernan
    */
   UserRecoverPasswordRequestCreator: Symbol.for(
     "UserRecoverPasswordRequestCreator"
   ),
+
+  /**
+   * @param {UserRecoverPasswordRequestRespository} respository
+   * @author acerohernan
+   */
+  UserRecoverPasswordRequestVerifier: Symbol.for(
+    "UserRecoverPasswordRequestVerifier"
+  ),
+
+  /**
+   * @param {UserRecoverPasswordRequestRespository} respository
+   * @author acerohernan
+   */
+  UserPasswordRestorer: Symbol.for("UserPasswordRestorer"),
 
   /* INFRAESTRUCTURE */
 

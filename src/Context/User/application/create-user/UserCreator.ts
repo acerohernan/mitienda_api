@@ -31,10 +31,9 @@ export class UserCreator {
 
   async run(params: Params): Promise<void> {
     await this.verifyIfExistsAUserWithTheSameEmail(params.email);
-
     const id = new UserId(Uuid.random().value);
     const email = new UserEmail(params.email);
-    const password = await UserPassword.fromPrimitive(params.password);
+    const password = UserPassword.fromPrimitive(params.password);
     const phone = new UserPhone(params.phone);
     const first_name = new UserFirstName(null);
     const last_name = new UserFirstName(null);

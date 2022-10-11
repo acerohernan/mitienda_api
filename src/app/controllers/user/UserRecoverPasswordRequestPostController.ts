@@ -12,9 +12,10 @@ export class UserRecoverPasswordRequestPostController implements Controller {
   ) {}
 
   async run(req: Request, res: Response): Promise<void> {
-    const { email } = req.body;
+    const { email, request_uuid } = req.body;
     const { code } = await this.userRecoverPasswordRequestCreator.run({
       email,
+      request_uuid,
     });
 
     res.status(201).send({ code });

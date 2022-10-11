@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { CONTAINER_TYPES } from "../../../../app/dependency-injection/types";
 import { NotFoundException } from "../../../Shared/domain/exceptions/NotFoundException";
 import { Uuid } from "../../../Shared/domain/Uuid";
-import { UserRecoverPasswordRequestRespository } from "../../domain/ioc/UserRecoverPasswordRequestRespository";
+import { UserRecoverPasswordRequestRepository } from "../../domain/ioc/UserRecoverPasswordRequestRepository";
 import { UserRepository } from "../../domain/ioc/UserRepository";
 import { UserEmailFinder } from "../../domain/services/UserEmailFinder";
 import { User } from "../../domain/User";
@@ -10,6 +10,7 @@ import { UserRecoverPasswordRequest } from "../../domain/UserRecoverPasswordRequ
 import { UserRecoverPasswordId } from "../../domain/value-objects/UserRecoverPasswordId";
 
 type Params = {
+  request_uuid?: string;
   email: string;
 };
 
@@ -21,18 +22,18 @@ export class UserRecoverPasswordRequestCreator {
     @inject(CONTAINER_TYPES.UserRepository)
     protected userRepository: UserRepository,
     @inject(CONTAINER_TYPES.UserRecoverPasswordRequestRepository)
-    private recoverPasswordRequestRespository: UserRecoverPasswordRequestRespository
+    private recoverPasswordRequestRepository: UserRecoverPasswordRequestRepository
   ) {
     this.userEmailFinder = new UserEmailFinder(userRepository);
   }
 
-  async run({ email }: Params): Promise<{ code: string }> {
+  async run({ email, request_uuid }: Params): Promise<{ code: string }> {
     const user = await this.getTheUserAndEnsureThatTheEmailExists(email);
 
-    const id = new UserRecoverPasswordId(Uuid.random().value);
+    const id = new UserRecoverPasswordId(request_uuid || Uuid.random().value);
     const request = UserRecoverPasswordRequest.create({ id, user_id: user.id });
 
-    await this.recoverPasswordRequestRespository.save(request);
+    await this.recoverPasswordRequestRepository.save(request);
 
     return { code: request.id.value };
   }

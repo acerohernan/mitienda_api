@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { EntitySchema } from "typeorm";
 import { Nullable } from "../../../../../Shared/domain/Nullable";
 import { TypeOrmRepository } from "../../../../../Shared/infrastructure/persistence/typeorm/TypeOrmRepository";
-import { UserRecoverPasswordRequestRespository } from "../../../../domain/ioc/UserRecoverPasswordRequestRespository";
+import { UserRecoverPasswordRequestRepository } from "../../../../domain/ioc/UserRecoverPasswordRequestRepository";
 import {
   UserRecoverPasswordRequest,
   UserRecoverPasswordRequestPrimitives,
@@ -16,7 +16,7 @@ export class TypeOrmUserReccoverPasswordRequestRepository
     UserRecoverPasswordRequest,
     UserRecoverPasswordRequestPrimitives
   >
-  implements UserRecoverPasswordRequestRespository
+  implements UserRecoverPasswordRequestRepository
 {
   constructor() {
     super();
@@ -33,6 +33,10 @@ export class TypeOrmUserReccoverPasswordRequestRepository
   async search(
     id: UserRecoverPasswordId
   ): Promise<Nullable<UserRecoverPasswordRequest>> {
-    return this.search(id);
+    const primitives = await this.searchById(id);
+
+    if (!primitives) return null;
+
+    return UserRecoverPasswordRequest.fromPrimitives(primitives);
   }
 }

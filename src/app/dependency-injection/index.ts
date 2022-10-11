@@ -3,7 +3,7 @@ import { TypeOrmEnvironmentArranger } from "../../../tests/Context/Shared/infras
 import { TypeOrmClientFactory } from "../../Context/Shared/infrastructure/persistence/typeorm/TypeOrmClientFactory";
 import { UserSessionCreator } from "../../Context/User/application/create-user-session/UserSessionCreator";
 import { UserCreator } from "../../Context/User/application/create-user/UserCreator";
-import { UserRecoverPasswordRequestRespository } from "../../Context/User/domain/ioc/UserRecoverPasswordRequestRespository";
+import { UserRecoverPasswordRequestRepository } from "../../Context/User/domain/ioc/UserRecoverPasswordRequestRepository";
 import { UserRepository } from "../../Context/User/domain/ioc/UserRepository";
 import { TypeOrmUserSessionRepository } from "../../Context/User/infrastructure/persistence/typeorm/session/TypeOrmUserSessionRepository";
 import { StatusGetController } from "../controllers/status/StatusGetController";
@@ -11,10 +11,14 @@ import { UserPostController } from "../controllers/user/UserPostController";
 import { UserSessionPostController } from "../controllers/user/UserSessionPostController";
 
 import { UserRecoverPasswordRequestCreator } from "../../Context/User/application/create-restore-password-request/UserRecoverPasswordRequestCreator";
+import { UserPasswordRestorer } from "../../Context/User/application/restore-user-password/UserPasswordRestorer";
+import { UserRecoverPasswordRequestVerifier } from "../../Context/User/application/verify-restore-password-request-code/UserRecoverPasswordRequestVerifier";
 import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSessionRepository";
 import { TypeOrmUserReccoverPasswordRequestRepository } from "../../Context/User/infrastructure/persistence/typeorm/recover-password/TypeOrmUserReccoverPasswordRequestRepository";
 import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/user/TypeOrmUserRepository";
+import { UserRecoverPasswordRequestGetController } from "../controllers/user/UserRecoverPasswordRequestGetController";
 import { UserRecoverPasswordRequestPostController } from "../controllers/user/UserRecoverPasswordRequestPostController";
+import { UserRestorePasswordPostController } from "../controllers/user/UserRestorePasswordPostController";
 import { CONTAINER_TYPES } from "./types";
 
 const container = new Container();
@@ -58,6 +62,28 @@ container
   )
   .to(UserRecoverPasswordRequestPostController);
 
+/**
+ * UserRecoverPasswordRequestGetController
+ * @param {UserRecoverPasswordRequestVerifier} userRecoverPasswordRequestVerifier
+ * @author acerohernan
+ */
+container
+  .bind<UserRecoverPasswordRequestGetController>(
+    CONTAINER_TYPES.UserRecoverPasswordRequestGetController
+  )
+  .to(UserRecoverPasswordRequestGetController);
+
+/**
+ * UserRestorePasswordPostController
+ * @param {UserPasswordRestorer} userPasswordRestorer
+ * @author acerohernan
+ */
+container
+  .bind<UserRestorePasswordPostController>(
+    CONTAINER_TYPES.UserRestorePasswordPostController
+  )
+  .to(UserRestorePasswordPostController);
+
 /* APPLICATION SERVICES */
 /**
  * UserCreator
@@ -87,6 +113,24 @@ container
     CONTAINER_TYPES.UserRecoverPasswordRequestCreator
   )
   .to(UserRecoverPasswordRequestCreator);
+
+/**
+ * @param {UserRecoverPasswordRequestRespository} respository
+ * @author acerohernan
+ */
+container
+  .bind<UserRecoverPasswordRequestVerifier>(
+    CONTAINER_TYPES.UserRecoverPasswordRequestVerifier
+  )
+  .to(UserRecoverPasswordRequestVerifier);
+
+/**
+ * @param {UserRecoverPasswordRequestRespository} respository
+ * @author acerohernan
+ */
+container
+  .bind<UserPasswordRestorer>(CONTAINER_TYPES.UserPasswordRestorer)
+  .to(UserPasswordRestorer);
 
 /* INFRASTRUCTURE */
 
@@ -127,7 +171,7 @@ container
  * @author acerohernan
  */
 container
-  .bind<UserRecoverPasswordRequestRespository>(
+  .bind<UserRecoverPasswordRequestRepository>(
     CONTAINER_TYPES.UserRecoverPasswordRequestRepository
   )
   .to(TypeOrmUserReccoverPasswordRequestRepository);

@@ -7,19 +7,22 @@ export class UserPassword extends StringValueObject {
   /* The password should have a at least one lowercase letter, one uppercase letter and one numeric character. 
   The minimun lenght is 8 and the maximun is 100 */
 
-  static async fromPrimitive(password: string): Promise<UserPassword> {
+  static fromPrimitive(password: string): UserPassword {
     UserPassword.ensureIsAValidPassword(password);
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = UserPassword.hashPassword(password);
     return new UserPassword(hashedPassword);
   }
 
-  static async compareHash(
+  static hashPassword(password: string): string {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+  }
+
+  static compareHash(
     candiatePassword: string,
     hashedPassword: string
-  ): Promise<boolean> {
-    return await bcrypt.compare(candiatePassword, hashedPassword);
+  ): boolean {
+    return bcrypt.compareSync(candiatePassword, hashedPassword);
   }
 
   static ensureIsAValidPassword(password: string) {

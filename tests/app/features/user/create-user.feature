@@ -7,7 +7,7 @@ Feature: Create User
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "demo@test.com",
+            "email": "create@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -31,7 +31,7 @@ Feature: Create User
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "demo@test.com",
+            "email": "create2@test.com",
             "password": "p",
             "phone": "999113934"
         }
