@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { DataSource, EntitySchema, Repository } from "typeorm";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { AgregateRoot } from "../../../domain/AgregateRoot";
 import { Criteria } from "../../../domain/criteria/Criteria";
 import { Filter } from "../../../domain/criteria/Filter";
@@ -36,6 +37,14 @@ export abstract class TypeOrmRepository<
   protected async searchById(id: Uuid): Promise<Nullable<Primitives>> {
     const repository = await this.repository();
     return await repository.findOneBy({ id: id.value as any });
+  }
+
+  protected async updateById(
+    id: Uuid,
+    body: QueryDeepPartialEntity<Primitives>
+  ): Promise<void> {
+    const repository = await this.repository();
+    await repository.update(id.value, body);
   }
 
   protected async remove(id: Uuid): Promise<void> {

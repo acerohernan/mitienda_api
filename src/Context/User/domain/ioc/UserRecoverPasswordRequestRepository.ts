@@ -7,4 +7,5 @@ export interface UserRecoverPasswordRequestRepository {
   search(
     id: UserRecoverPasswordId
   ): Promise<Nullable<UserRecoverPasswordRequest>>;
+  delete(id: UserRecoverPasswordId): Promise<void>;
 }

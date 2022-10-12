@@ -17,7 +17,6 @@ export class UserRecoverPasswordRequestGetController implements Controller {
     res: Response<any, Record<string, any>>
   ): Promise<void> {
     const { code } = req.params;
-    console.log("The code to be searched", code);
 
     await this.verifier.run({ request_id: code });
 

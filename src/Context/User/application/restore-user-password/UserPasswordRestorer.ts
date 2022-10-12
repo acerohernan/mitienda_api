@@ -2,8 +2,10 @@ import { inject, injectable } from "inversify";
 import { CONTAINER_TYPES } from "../../../../app/dependency-injection/types";
 import { InvalidArgumentException } from "../../../Shared/domain/exceptions/InvalidArgumentException";
 import { NotFoundException } from "../../../Shared/domain/exceptions/NotFoundException";
-import { Nullable } from "../../../Shared/domain/Nullable";
+import { UserId } from "../../../Shared/domain/UserId";
 import { UserRecoverPasswordRequestRepository } from "../../domain/ioc/UserRecoverPasswordRequestRepository";
+import { UserRepository } from "../../domain/ioc/UserRepository";
+import { User } from "../../domain/User";
 import { UserRecoverPasswordRequest } from "../../domain/UserRecoverPasswordRequest";
 import { UserPassword } from "../../domain/value-objects/UserPassword";
 import { UserRecoverPasswordId } from "../../domain/value-objects/UserRecoverPasswordId";
@@ -18,8 +20,9 @@ type Params = {
 export class UserPasswordRestorer {
   constructor(
     @inject(CONTAINER_TYPES.UserRecoverPasswordRequestRepository)
-    private requestRepository: UserRecoverPasswordRequestRepository /* @inject(CONTAINER_TYPES.UserRepository)
-    private userRepository: UserRepository */
+    private requestRepository: UserRecoverPasswordRequestRepository,
+    @inject(CONTAINER_TYPES.UserRepository)
+    private userRepository: UserRepository
   ) {}
 
   async run({ request_id, password, re_password }: Params): Promise<void> {
@@ -29,12 +32,16 @@ export class UserPasswordRestorer {
     );
 
     const id = new UserRecoverPasswordId(request_id);
-    const request = await this.requestRepository.search(id);
 
-    this.ensureThatRequestExists(request, id);
+    const request = await this.getRequestAndEnsureThatExists(id);
 
+    const user = await this.getUserAndEnsureThatExists(request.user_id);
     const newPassword = UserPassword.fromPrimitive(password);
-    console.log("Is the new password", newPassword);
+    user.changePassword(newPassword);
+
+    await this.userRepository.save(user);
+
+    await this.requestRepository.delete(id);
   }
 
   private verifyIfThePasswordAndThePasswordConfirmationMatches(
@@ -47,13 +54,25 @@ export class UserPasswordRestorer {
       );
   }
 
-  private ensureThatRequestExists(
-    request: Nullable<UserRecoverPasswordRequest>,
+  private async getRequestAndEnsureThatExists(
     id: UserRecoverPasswordId
-  ): void {
+  ): Promise<UserRecoverPasswordRequest> {
+    const request = await this.requestRepository.search(id);
+
     if (request === null)
       throw new NotFoundException(
         `The recover password request code <${id.value}> is invalid`
       );
+
+    return request;
+  }
+
+  private async getUserAndEnsureThatExists(id: UserId): Promise<User> {
+    const user = await this.userRepository.search(id);
+
+    if (user === null)
+      throw new NotFoundException(`The user with id <${id.value}> not exists`);
+
+    return user;
   }
 }

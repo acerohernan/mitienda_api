@@ -21,6 +21,9 @@ export class TypeOrmUserReccoverPasswordRequestRepository
   constructor() {
     super();
   }
+  async delete(id: UserRecoverPasswordId): Promise<void> {
+    return this.remove(id);
+  }
 
   protected entitySchema(): EntitySchema<UserRecoverPasswordRequest> {
     return UserRecoverPasswordEntity;

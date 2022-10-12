@@ -41,7 +41,7 @@ export class User extends AgregateRoot {
   readonly first_name: UserFirstName;
   readonly last_name: UserLastName;
   readonly email: UserEmail;
-  readonly password: UserPassword;
+  password: UserPassword;
   readonly phone: UserPhone;
   readonly status: UserStatus;
   readonly email_verified: UserEmailVerified;
@@ -73,6 +73,10 @@ export class User extends AgregateRoot {
     //register the created.user event
 
     return user;
+  }
+
+  public changePassword(newPassword: UserPassword) {
+    this.password = newPassword;
   }
 
   public matchesPassword(candiatePassword: string): boolean {

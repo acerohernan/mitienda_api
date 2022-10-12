@@ -25,7 +25,11 @@ export class TypeOrmUserRepository
   async save(user: User): Promise<void> {
     await this.persist(user);
   }
-  search(userId: UserId): Promise<Nullable<User>> {
-    throw new Error("Method not implemented.");
+  async search(userId: UserId): Promise<Nullable<User>> {
+    const primitives = await this.searchById(userId);
+
+    if (primitives === null) return null;
+
+    return User.fromPrimitives(primitives);
   }
 }
