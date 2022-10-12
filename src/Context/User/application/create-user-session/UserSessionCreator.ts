@@ -10,6 +10,7 @@ import { Order } from "../../../Shared/domain/criteria/Order";
 import { NotFoundException } from "../../../Shared/domain/exceptions/NotFoundException";
 import { UnathorizedException } from "../../../Shared/domain/exceptions/UnathorizedException";
 import { Uuid } from "../../../Shared/domain/Uuid";
+import { config } from "../../../Shared/infrastructure/config";
 import { UserRepository } from "../../domain/ioc/UserRepository";
 import { UserSessionRepository } from "../../domain/ioc/UserSessionRepository";
 import { UserEmailFinder } from "../../domain/services/UserEmailFinder";
@@ -122,7 +123,7 @@ export class UserSessionCreator {
   ): { accessToken: string; refreshToken: string } {
     const accessToken = jwt.sign(
       { user: user_id, session: session_id },
-      "secret",
+      config.jwt.secret,
       {
         algorithm: "HS256",
         expiresIn: "1d",
@@ -131,7 +132,7 @@ export class UserSessionCreator {
 
     const refreshToken = jwt.sign(
       { user: user_id, session: session_id },
-      "secret",
+      config.jwt.secret,
       {
         algorithm: "HS256",
         expiresIn: "7d",

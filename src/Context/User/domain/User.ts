@@ -70,12 +70,14 @@ export class User extends AgregateRoot {
   static create(properties: UserProperties): User {
     const user = new User(properties);
 
-    //register the created.user event
+    /* Register the user.created event */
 
     return user;
   }
 
   public changePassword(newPassword: UserPassword) {
+    /* Register the user.password.updated event */
+
     this.password = newPassword;
   }
 

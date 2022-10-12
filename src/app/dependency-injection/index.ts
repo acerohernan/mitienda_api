@@ -11,6 +11,8 @@ import { UserPostController } from "../controllers/user/UserPostController";
 import { UserSessionPostController } from "../controllers/user/UserSessionPostController";
 
 import { UserRecoverPasswordRequestCreator } from "../../Context/User/application/create-restore-password-request/UserRecoverPasswordRequestCreator";
+import { UserSessionDeleter } from "../../Context/User/application/delete-user-session/UserSessionDeleter";
+import { UserSessionGetter } from "../../Context/User/application/get-user-session/UserSessionGetter";
 import { UserPasswordRestorer } from "../../Context/User/application/restore-user-password/UserPasswordRestorer";
 import { UserRecoverPasswordRequestVerifier } from "../../Context/User/application/verify-restore-password-request-code/UserRecoverPasswordRequestVerifier";
 import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSessionRepository";
@@ -19,6 +21,8 @@ import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persist
 import { UserRecoverPasswordRequestGetController } from "../controllers/user/UserRecoverPasswordRequestGetController";
 import { UserRecoverPasswordRequestPostController } from "../controllers/user/UserRecoverPasswordRequestPostController";
 import { UserRestorePasswordPostController } from "../controllers/user/UserRestorePasswordPostController";
+import { UserSessionCloserPostController } from "../controllers/user/UserSessionCloserPostController";
+import { UserSessionGetController } from "../controllers/user/UserSessionGetController";
 import { CONTAINER_TYPES } from "./types";
 
 const container = new Container();
@@ -84,6 +88,26 @@ container
   )
   .to(UserRestorePasswordPostController);
 
+/**
+ * UserSessionPostController
+ * @param {UserSessionDeleter} userSessionDeleter
+ * @author acerohernan
+ */
+container
+  .bind<UserSessionCloserPostController>(
+    CONTAINER_TYPES.UserSessionCloserPostController
+  )
+  .to(UserSessionCloserPostController);
+
+/**
+ * UserSessionGetController
+ * @param {UserSessionGetter} userSessionGetter
+ * @author acerohernan
+ */
+container
+  .bind(CONTAINER_TYPES.UserSessionGetController)
+  .to(UserSessionGetController);
+
 /* APPLICATION SERVICES */
 /**
  * UserCreator
@@ -115,6 +139,7 @@ container
   .to(UserRecoverPasswordRequestCreator);
 
 /**
+ * UserRecoverPasswordRequestVerifier
  * @param {UserRecoverPasswordRequestRespository} respository
  * @author acerohernan
  */
@@ -125,12 +150,32 @@ container
   .to(UserRecoverPasswordRequestVerifier);
 
 /**
+ * UserPasswordRestorer
  * @param {UserRecoverPasswordRequestRespository} respository
  * @author acerohernan
  */
 container
   .bind<UserPasswordRestorer>(CONTAINER_TYPES.UserPasswordRestorer)
   .to(UserPasswordRestorer);
+
+/**
+ * UserSessionDeleter
+ * @param {UserSessionRepository} repository
+ * @author acerohernan
+ */
+container
+  .bind<UserSessionDeleter>(CONTAINER_TYPES.UserSessionDeleter)
+  .to(UserSessionDeleter);
+
+/**
+ * UserSessionGetter
+ * @param {UserSessionRepository} sessionRepository
+ * @param {UserRepository} userRespository
+ * @author acerohernan
+ */
+container
+  .bind<UserSessionGetter>(CONTAINER_TYPES.UserSessionGetter)
+  .to(UserSessionGetter);
 
 /* INFRASTRUCTURE */
 
