@@ -16,8 +16,10 @@ export class StoreFinderGetController implements Controller {
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     res: Response<any, Record<string, any>>
   ): Promise<void> {
-    const store = await this.finder.run();
+    const { user_id } = res.locals.user;
 
-    res.status(200).send(store);
+    const store = await this.finder.run({ user_id });
+
+    res.status(200).send({ store });
   }
 }

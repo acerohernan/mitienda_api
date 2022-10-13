@@ -4,23 +4,8 @@ Feature: Create Store
     I want to create my store
 
     Scenario: A invalid domain
-        Given I send a POST request to "/user/auth/signup" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1",
-            "phone": "51999113934"
-        }
-        """
-        Then I send a POST request to "/user/auth/login" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1"
-        }
-        """
-        And the response should have the property "accessToken"
-        When I send an authenticated POST request to "/store/create" with body:
+        Given I get an access token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNGI2NzY2YzgtOThiNC00ZWUwLWJmZWUtYzZhYWIwM2ZhN2U0Iiwic2Vzc2lvbiI6ImQ1ZDQ5YThhLWM4YzUtNGNkOS1iNGQ1LTBiNjNkNTI5ZDIwNSIsImlhdCI6MTY2NTY4OTk1Mn0.er-klDF0EDyD6IyDSjsLZwrzcFYxBQ7E8XzzwLB7x94"
+        Then I send an authenticated POST request to "/store/create" with body:
         """
         {
             "domain": "",
@@ -31,27 +16,12 @@ Feature: Create Store
             "currency_id": "0d204bc1-ae8f-4c40-a523-0db4dc3a59bd"
         }
         """
-        Then the response status code should be 400
+        And the response status code should be 400
         And the response should have an error message
     
     Scenario: A invalid whatsapp
-        Given I send a POST request to "/user/auth/signup" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1",
-            "phone": "51999113934"
-        }
-        """
-        Then I send a POST request to "/user/auth/login" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1"
-        }
-        """
-        And the response should have the property "accessToken"
-        When I send an authenticated POST request to "/store/create" with body:
+        Given I get an access token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNGI2NzY2YzgtOThiNC00ZWUwLWJmZWUtYzZhYWIwM2ZhN2U0Iiwic2Vzc2lvbiI6ImQ1ZDQ5YThhLWM4YzUtNGNkOS1iNGQ1LTBiNjNkNTI5ZDIwNSIsImlhdCI6MTY2NTY4OTk1Mn0.er-klDF0EDyD6IyDSjsLZwrzcFYxBQ7E8XzzwLB7x94"
+        And I send an authenticated POST request to "/store/create" with body:
         """
         {
             "domain": "teststore",
@@ -62,30 +32,16 @@ Feature: Create Store
             "currency_id": "0d204bc1-ae8f-4c40-a523-0db4dc3a59bd"
         }
         """
-        Then the response status code should be 400
+        And the response status code should be 400
         And the response should have an error message
 
     Scenario: A empty request
-        Given I send a POST request to "/user/auth/signup" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1",
-            "phone": "51999113934"
-        }
-        """
-        Then I send a POST request to "/user/auth/login" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1"
-        }
-        """
-        When I send an authenticated POST request to "/store/create" with body:
+        Given I get an access token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNGI2NzY2YzgtOThiNC00ZWUwLWJmZWUtYzZhYWIwM2ZhN2U0Iiwic2Vzc2lvbiI6ImQ1ZDQ5YThhLWM4YzUtNGNkOS1iNGQ1LTBiNjNkNTI5ZDIwNSIsImlhdCI6MTY2NTY4OTk1Mn0.er-klDF0EDyD6IyDSjsLZwrzcFYxBQ7E8XzzwLB7x94"
+        Then I send an authenticated POST request to "/store/create" with body:
         """
         {}
         """
-        Then the response status code should be 400
+        And the response status code should be 400
         And the response should have an error message
     
     Scenario: An unauthenticated request
@@ -100,30 +56,15 @@ Feature: Create Store
             "currency_id": "0d204bc1-ae8f-4c40-a523-0db4dc3a59bd"
         }
         """
-        And the response status code should be 401
+        Then the response status code should be 401
         And the response should have an error message
 
     Scenario: A valid non existing store
-        Given I send a POST request to "/user/auth/signup" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1",
-            "phone": "51999113934"
-        }
-        """
-        Then I send a POST request to "/user/auth/login" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1"
-        }
-        """
-        And the response should have the property "accessToken"
+        Given I get an access token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNGI2NzY2YzgtOThiNC00ZWUwLWJmZWUtYzZhYWIwM2ZhN2U0Iiwic2Vzc2lvbiI6ImQ1ZDQ5YThhLWM4YzUtNGNkOS1iNGQ1LTBiNjNkNTI5ZDIwNSIsImlhdCI6MTY2NTY4OTk1Mn0.er-klDF0EDyD6IyDSjsLZwrzcFYxBQ7E8XzzwLB7x94"
         When I send an authenticated POST request to "/store/create" with body:
         """
         {
-            "domain": "newdomain",
+            "domain": "tiendadeacero",
             "name": "Tienda de Acero",
             "whatsapp": "51999113934",
             "type": "Embutidos y fresas",
@@ -135,22 +76,7 @@ Feature: Create Store
         And the response should be empty
 
     Scenario: A user with store created
-        Given I send a POST request to "/user/auth/signup" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1",
-            "phone": "51999113934"
-        }
-        """
-        Then I send a POST request to "/user/auth/login" with body:
-        """
-        {
-            "email": "test@gmail.com",
-            "password": "Password1"
-        }
-        """
-        And the response should have the property "accessToken"
+        Given I get an access token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNGI2NzY2YzgtOThiNC00ZWUwLWJmZWUtYzZhYWIwM2ZhN2U0Iiwic2Vzc2lvbiI6ImQ1ZDQ5YThhLWM4YzUtNGNkOS1iNGQ1LTBiNjNkNTI5ZDIwNSIsImlhdCI6MTY2NTY4OTk1Mn0.er-klDF0EDyD6IyDSjsLZwrzcFYxBQ7E8XzzwLB7x94"
         When I send an authenticated POST request to "/store/create" with body:
         """
         {
