@@ -3,18 +3,6 @@ Feature: Create User
     As a anon user
     I want to create my user account
 
-    Scenario: A valid non existing user
-        Given I send a POST request to "/user/auth/signup" with body:
-        """
-        {
-            "email": "create@gmail.com",
-            "password": "Password1",
-            "phone": "999113934"
-        }
-        """
-        Then the response status code should be 201
-        And the response should be empty
-    
     Scenario: A invalid email
         Given I send a POST request to "/user/auth/signup" with body:
         """
@@ -31,7 +19,7 @@ Feature: Create User
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "create2@test.com",
+            "email": "create@test.com",
             "password": "p",
             "phone": "999113934"
         }
@@ -47,3 +35,17 @@ Feature: Create User
         """
         Then the response status code should be 400
         And the response should have an error message
+
+    Scenario: A valid non existing user
+        Given I send a POST request to "/user/auth/signup" with body:
+        """
+        {
+            "email": "create@gmail.com",
+            "password": "Password1",
+            "phone": "999113934"
+        }
+        """
+        Then the response status code should be 201
+        And the response should be empty
+    
+    

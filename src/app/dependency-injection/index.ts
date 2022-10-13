@@ -10,6 +10,15 @@ import { StatusGetController } from "../controllers/status/StatusGetController";
 import { UserPostController } from "../controllers/user/UserPostController";
 import { UserSessionPostController } from "../controllers/user/UserSessionPostController";
 
+import { StoreCreator } from "../../Context/Store/application/create-store/StoreCreator";
+import { StoreConfigRepository } from "../../Context/Store/domain/ioc/StoreConfigRepository";
+import { StoreRepository } from "../../Context/Store/domain/ioc/StoreRepository";
+import { StoreSocialRepository } from "../../Context/Store/domain/ioc/StoreSocialRepository";
+import { StoreTeamRepository } from "../../Context/Store/domain/ioc/StoreTeamRepository";
+import { TypeOrmStoreConfigRepository } from "../../Context/Store/infrastructure/persistence/typeorm/store-config/TypeOrmStoreConfigRepository";
+import { TypeOrmStoreSocialRepository } from "../../Context/Store/infrastructure/persistence/typeorm/store-social/TypeOrmStoreSocialRepository";
+import { TypeOrmStoreTeamRepository } from "../../Context/Store/infrastructure/persistence/typeorm/store-team/TypeOrmStoreTeamRepository";
+import { TypeOrmStoreRepository } from "../../Context/Store/infrastructure/persistence/typeorm/store/TypeOrmStoreRepository";
 import { UserRecoverPasswordRequestCreator } from "../../Context/User/application/create-restore-password-request/UserRecoverPasswordRequestCreator";
 import { UserSessionDeleter } from "../../Context/User/application/delete-user-session/UserSessionDeleter";
 import { UserSessionGetter } from "../../Context/User/application/get-user-session/UserSessionGetter";
@@ -18,6 +27,7 @@ import { UserRecoverPasswordRequestVerifier } from "../../Context/User/applicati
 import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSessionRepository";
 import { TypeOrmUserReccoverPasswordRequestRepository } from "../../Context/User/infrastructure/persistence/typeorm/recover-password/TypeOrmUserReccoverPasswordRequestRepository";
 import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/user/TypeOrmUserRepository";
+import { StoreCreatePostController } from "../controllers/store/StoreCreatePostController";
 import { UserRecoverPasswordRequestGetController } from "../controllers/user/UserRecoverPasswordRequestGetController";
 import { UserRecoverPasswordRequestPostController } from "../controllers/user/UserRecoverPasswordRequestPostController";
 import { UserRestorePasswordPostController } from "../controllers/user/UserRestorePasswordPostController";
@@ -108,6 +118,15 @@ container
   .bind(CONTAINER_TYPES.UserSessionGetController)
   .to(UserSessionGetController);
 
+/**
+ *
+ * @param {StoreCreator} StoreCreator
+ * @author acerohernan
+ */
+container
+  .bind<StoreCreatePostController>(CONTAINER_TYPES.StoreCreatePostController)
+  .to(StoreCreatePostController);
+
 /* APPLICATION SERVICES */
 /**
  * UserCreator
@@ -177,6 +196,16 @@ container
   .bind<UserSessionGetter>(CONTAINER_TYPES.UserSessionGetter)
   .to(UserSessionGetter);
 
+/**
+ * StoreCreator
+ * @param {StoreRepository} repository
+ * @param {StoreTeamRepository} teamRepository
+ * @param {StoreConfigRepository} configRepository
+ * @param {StoreSocialRepository} socialRepository
+ * @author acerohernan
+ */
+container.bind<StoreCreator>(CONTAINER_TYPES.StoreCreator).to(StoreCreator);
+
 /* INFRASTRUCTURE */
 
 /**
@@ -220,5 +249,37 @@ container
     CONTAINER_TYPES.UserRecoverPasswordRequestRepository
   )
   .to(TypeOrmUserReccoverPasswordRequestRepository);
+
+/**
+ * StoreRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreRepository>(CONTAINER_TYPES.StoreRepository)
+  .to(TypeOrmStoreRepository);
+
+/**
+ * StoreTeamRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreTeamRepository>(CONTAINER_TYPES.StoreTeamRepository)
+  .to(TypeOrmStoreTeamRepository);
+
+/**
+ * StoreConfigRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreConfigRepository>(CONTAINER_TYPES.StoreConfigRepository)
+  .to(TypeOrmStoreConfigRepository);
+
+/**
+ * StoreSocialRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreSocialRepository>(CONTAINER_TYPES.StoreSocialRepository)
+  .to(TypeOrmStoreSocialRepository);
 
 export default container;

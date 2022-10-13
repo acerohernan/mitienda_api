@@ -64,6 +64,13 @@ export const CONTAINER_TYPES = {
    */
   UserSessionGetController: Symbol.for("UserSessionGetController"),
 
+  /**
+   * StoreCreatePostController
+   * @param {StoreCreator} StoreCreator
+   * @author acerohernan
+   */
+  StoreCreatePostController: Symbol.for("StoreCreatePostController"),
+
   /* APPLICATION SERVICES */
 
   /**
@@ -122,6 +129,16 @@ export const CONTAINER_TYPES = {
    */
   UserSessionGetter: Symbol.for("UserSessionGetter"),
 
+  /**
+   * StoreCreator
+   * @param {StoreRepository} repository
+   * @param {StoreTeamRepository} teamRepository
+   * @param {StoreConfigRepository} configRepository
+   * @param {StoreSocialRepository} socialRepository
+   * @author acerohernan
+   */
+  StoreCreator: Symbol.for("StoreCreator"),
+
   /* INFRAESTRUCTURE */
 
   /**
@@ -155,4 +172,28 @@ export const CONTAINER_TYPES = {
   UserRecoverPasswordRequestRepository: Symbol.for(
     "UserRecoverPasswordRequestRepository"
   ),
+
+  /**
+   * StoreRepository
+   * @author acerohernan
+   */
+  StoreRepository: Symbol.for("StoreRepository"),
+
+  /**
+   * StoreTeamRepository
+   * @author acerohernan
+   */
+  StoreTeamRepository: Symbol.for("StoreTeamRepository"),
+
+  /**
+   * StoreConfigRepository
+   * @author acerohernan
+   */
+  StoreConfigRepository: Symbol.for("StoreConfigRepository"),
+
+  /**
+   * StoreSocialRepository
+   * @author acerohernan
+   */
+  StoreSocialRepository: Symbol.for("StoreSocialRepository"),
 };

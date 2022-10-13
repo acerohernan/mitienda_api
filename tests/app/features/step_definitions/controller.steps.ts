@@ -68,7 +68,6 @@ Then("the response should have the property {string}", (property: string) => {
 
     return true;
   }
-
-  console.log(_response.body["session"]);
+  console.log(_response.body);
   throw new Error(`The response not have the property <${property}>`);
 });

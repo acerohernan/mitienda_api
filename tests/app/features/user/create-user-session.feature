@@ -53,8 +53,6 @@ Feature: Create user session
         Then the response status code should be 404
         And the response should have an error message
 
-
-
     Scenario:  Empty credentials
         Given I send a POST request to "/user/auth/login" with body:
         """
