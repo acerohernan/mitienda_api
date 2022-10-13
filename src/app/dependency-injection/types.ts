@@ -66,10 +66,17 @@ export const CONTAINER_TYPES = {
 
   /**
    * StoreCreatePostController
-   * @param {StoreCreator} StoreCreator
+   * @param {StoreCreator} storeCreator
    * @author acerohernan
    */
   StoreCreatePostController: Symbol.for("StoreCreatePostController"),
+
+  /**
+   * StoreFinderGetController
+   * @param {StoreInformationFinder} storeInformationFinder
+   * @author acerohernan
+   */
+  StoreFinderGetController: Symbol.for("StoreFinderGetController"),
 
   /* APPLICATION SERVICES */
 
@@ -138,6 +145,16 @@ export const CONTAINER_TYPES = {
    * @author acerohernan
    */
   StoreCreator: Symbol.for("StoreCreator"),
+
+  /**
+   * StoreInformationFinder
+   * @param {StoreRepository} repository
+   * @param {StoreTeamRepository} teamRepository
+   * @param {StoreConfigRepository} configRepository
+   * @param {StoreSocialRepository} socialRepository
+   * @author acerohernan
+   */
+  StoreInformationFinder: Symbol.for("StoreInformationFinder"),
 
   /* INFRAESTRUCTURE */
 

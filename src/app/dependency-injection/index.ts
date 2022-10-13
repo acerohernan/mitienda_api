@@ -11,6 +11,7 @@ import { UserPostController } from "../controllers/user/UserPostController";
 import { UserSessionPostController } from "../controllers/user/UserSessionPostController";
 
 import { StoreCreator } from "../../Context/Store/application/create-store/StoreCreator";
+import { StoreInformationFinder } from "../../Context/Store/application/find-store/StoreInformationFinder";
 import { StoreConfigRepository } from "../../Context/Store/domain/ioc/StoreConfigRepository";
 import { StoreRepository } from "../../Context/Store/domain/ioc/StoreRepository";
 import { StoreSocialRepository } from "../../Context/Store/domain/ioc/StoreSocialRepository";
@@ -28,6 +29,7 @@ import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSession
 import { TypeOrmUserReccoverPasswordRequestRepository } from "../../Context/User/infrastructure/persistence/typeorm/recover-password/TypeOrmUserReccoverPasswordRequestRepository";
 import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/user/TypeOrmUserRepository";
 import { StoreCreatePostController } from "../controllers/store/StoreCreatePostController";
+import { StoreFinderGetController } from "../controllers/store/StoreFinderGetController";
 import { UserRecoverPasswordRequestGetController } from "../controllers/user/UserRecoverPasswordRequestGetController";
 import { UserRecoverPasswordRequestPostController } from "../controllers/user/UserRecoverPasswordRequestPostController";
 import { UserRestorePasswordPostController } from "../controllers/user/UserRestorePasswordPostController";
@@ -127,6 +129,15 @@ container
   .bind<StoreCreatePostController>(CONTAINER_TYPES.StoreCreatePostController)
   .to(StoreCreatePostController);
 
+/**
+ * StoreFinderGetController
+ * @param {StoreInformationFinder} storeInformationFinder
+ * @author acerohernan
+ */
+container
+  .bind<StoreFinderGetController>(CONTAINER_TYPES.StoreFinderGetController)
+  .to(StoreFinderGetController);
+
 /* APPLICATION SERVICES */
 /**
  * UserCreator
@@ -205,6 +216,18 @@ container
  * @author acerohernan
  */
 container.bind<StoreCreator>(CONTAINER_TYPES.StoreCreator).to(StoreCreator);
+
+/**
+ * StoreInformationFinder
+ * @param {StoreRepository} repository
+ * @param {StoreTeamRepository} teamRepository
+ * @param {StoreConfigRepository} configRepository
+ * @param {StoreSocialRepository} socialRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreInformationFinder>(CONTAINER_TYPES.StoreInformationFinder)
+  .to(StoreInformationFinder);
 
 /* INFRASTRUCTURE */
 
