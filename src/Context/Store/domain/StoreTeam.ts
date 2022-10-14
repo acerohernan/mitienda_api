@@ -20,9 +20,9 @@ export type StoreTeamProperties = {
 export class StoreTeam extends AgregateRoot {
   readonly id: StoreTeamId;
   readonly store_id: StoreId;
-  readonly img: string | null;
-  readonly description: string | null;
-  readonly video_link: string | null;
+  img: string | null;
+  description: string | null;
+  video_link: string | null;
 
   constructor({
     id,
@@ -37,6 +37,16 @@ export class StoreTeam extends AgregateRoot {
     this.img = img;
     this.description = description;
     this.video_link = video_link;
+  }
+
+  updateTeamInformation(params: {
+    img: string | null;
+    description: string | null;
+    video_link: string | null;
+  }) {
+    this.img = params.img;
+    this.description = params.description;
+    this.video_link = params.video_link;
   }
 
   toPrimitives(): StoreTeamPrimitives {

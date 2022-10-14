@@ -27,13 +27,13 @@ export type StoreSocialProperties = {
 export class StoreSocial {
   readonly id: StoreSocialId;
   readonly store_id: StoreId;
-  readonly facebook: string | null;
-  readonly instagram: string | null;
-  readonly pinterest: string | null;
-  readonly twitter: string | null;
-  readonly linkedin: string | null;
-  readonly tiktok: string | null;
-  readonly youtube: string | null;
+  facebook: string | null;
+  instagram: string | null;
+  pinterest: string | null;
+  twitter: string | null;
+  linkedin: string | null;
+  tiktok: string | null;
+  youtube: string | null;
 
   constructor({
     id,
@@ -55,6 +55,24 @@ export class StoreSocial {
     this.linkedin = linkedin;
     this.tiktok = tiktok;
     this.youtube = youtube;
+  }
+
+  public updateSocialInformation(params: {
+    facebook: string | null;
+    instagram: string | null;
+    pinterest: string | null;
+    twitter: string | null;
+    linkedin: string | null;
+    tiktok: string | null;
+    youtube: string | null;
+  }) {
+    this.facebook = params.facebook;
+    this.instagram = params.instagram;
+    this.pinterest = params.pinterest;
+    this.twitter = params.twitter;
+    this.linkedin = params.linkedin;
+    this.tiktok = params.tiktok;
+    this.youtube = params.youtube;
   }
 
   toPrimitives(): StoreSocialPrimitives {

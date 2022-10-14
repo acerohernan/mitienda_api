@@ -12,7 +12,7 @@ export const StoreConfigEntity = new EntitySchema({
       type: "varchar",
       unique: true,
     },
-    requests_dni: {
+    request_dni: {
       type: "bool",
       default: false,
     },

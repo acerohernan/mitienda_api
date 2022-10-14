@@ -80,10 +80,31 @@ export const CONTAINER_TYPES = {
 
   /**
    * StoreUpdatePutController
-   * @param {StoreUpdater} repository
+   * @param {StoreUpdater} updater
    * @author acerohernan
    */
   StoreUpdatePutController: Symbol.for("StoreUpdatePutController"),
+
+  /**
+   * StoreTeamPutController
+   * @param {StoreTeamUpdater} updater
+   * @author acerohernan
+   */
+  StoreTeamPutController: Symbol.for("StoreTeamPutController"),
+
+  /**
+   * StoreSocialPutController
+   * @param {StoreSocialUpdater} updater
+   * @author acerohernan
+   */
+  StoreSocialPutController: Symbol.for("StoreSocialPutController"),
+
+  /**
+   * StoreConfigPutController
+   * @param {StoreConfiglUpdater} updater
+   * @author acerohernan
+   */
+  StoreConfigPutController: Symbol.for("StoreConfigPutController"),
 
   /* APPLICATION SERVICES */
 
@@ -169,6 +190,30 @@ export const CONTAINER_TYPES = {
    * @author acerohernan
    */
   StoreUpdater: Symbol.for("StoreUpdater"),
+
+  /**
+   * StoreTeamUpdater
+   * @param {StoreRepository} repository
+   * @param {StoreTeamRepository} teamRepository
+   * @author acerohernan
+   */
+  StoreTeamUpdater: Symbol.for("StoreTeamUpdater"),
+
+  /**
+   * StoreSocialUpdater
+   * @param {StoreRepository} repository
+   * @param {StoreSocialRepository} socialRepository
+   * @author acerohernan
+   */
+  StoreSocialUpdater: Symbol.for("StoreSocialUpdater"),
+
+  /**
+   * StoreConfigUpdater
+   * @param {StoreRepository} repository
+   * @param {StoreConfigRepository} configRepository
+   * @author acerohernan
+   */
+  StoreConfigUpdater: Symbol.for("StoreConfigUpdater"),
 
   /* INFRAESTRUCTURE */
 

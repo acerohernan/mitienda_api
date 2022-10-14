@@ -12,6 +12,9 @@ import { UserSessionPostController } from "../controllers/user/UserSessionPostCo
 
 import { StoreCreator } from "../../Context/Store/application/create-store/StoreCreator";
 import { StoreInformationFinder } from "../../Context/Store/application/find-store/StoreInformationFinder";
+import { StoreConfigUpdater } from "../../Context/Store/application/update-store-config/StoreConfigUpdater";
+import { StoreSocialUpdater } from "../../Context/Store/application/update-store-social/StoreSocialUpdater";
+import { StoreTeamUpdater } from "../../Context/Store/application/update-store-team/StoreTeamUpdater";
 import { StoreUpdater } from "../../Context/Store/application/update-store/StoreUpdater";
 import { StoreConfigRepository } from "../../Context/Store/domain/ioc/StoreConfigRepository";
 import { StoreRepository } from "../../Context/Store/domain/ioc/StoreRepository";
@@ -29,8 +32,11 @@ import { UserRecoverPasswordRequestVerifier } from "../../Context/User/applicati
 import { UserSessionRepository } from "../../Context/User/domain/ioc/UserSessionRepository";
 import { TypeOrmUserReccoverPasswordRequestRepository } from "../../Context/User/infrastructure/persistence/typeorm/recover-password/TypeOrmUserReccoverPasswordRequestRepository";
 import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/user/TypeOrmUserRepository";
+import { StoreConfigPutController } from "../controllers/store/StoreConfigPutController";
 import { StoreCreatePostController } from "../controllers/store/StoreCreatePostController";
 import { StoreFinderGetController } from "../controllers/store/StoreFinderGetController";
+import { StoreSocialPutController } from "../controllers/store/StoreSocialPutController";
+import { StoreTeamPutController } from "../controllers/store/StoreTeamPutController";
 import { StoreUpdatePutController } from "../controllers/store/StoreUpdatePutController";
 import { UserRecoverPasswordRequestGetController } from "../controllers/user/UserRecoverPasswordRequestGetController";
 import { UserRecoverPasswordRequestPostController } from "../controllers/user/UserRecoverPasswordRequestPostController";
@@ -149,6 +155,33 @@ container
   .bind<StoreUpdatePutController>(CONTAINER_TYPES.StoreUpdatePutController)
   .to(StoreUpdatePutController);
 
+/**
+ * StoreTeamPutController
+ * @param {StoreTeamUpdater} updater
+ * @author acerohernan
+ */
+container
+  .bind<StoreTeamPutController>(CONTAINER_TYPES.StoreTeamPutController)
+  .to(StoreTeamPutController);
+
+/**
+ * StoreSocialPutController
+ * @param {StoreSocialUpdater} updater
+ * @author acerohernan
+ */
+container
+  .bind<StoreSocialPutController>(CONTAINER_TYPES.StoreSocialPutController)
+  .to(StoreSocialPutController);
+
+/**
+ * StoreConfigPutController
+ * @param {StoreConfiglUpdater} updater
+ * @author acerohernan
+ */
+container
+  .bind<StoreConfigPutController>(CONTAINER_TYPES.StoreConfigPutController)
+  .to(StoreConfigPutController);
+
 /* APPLICATION SERVICES */
 /**
  * UserCreator
@@ -246,6 +279,36 @@ container
  * @author acerohernan
  */
 container.bind<StoreUpdater>(CONTAINER_TYPES.StoreUpdater).to(StoreUpdater);
+
+/**
+ * StoreTeamUpdater
+ * @param {StoreRepository} repository
+ * @param {StoreTeamRepository} teamRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreTeamUpdater>(CONTAINER_TYPES.StoreTeamUpdater)
+  .to(StoreTeamUpdater);
+
+/**
+ * StoreSocialUpdater
+ * @param {StoreRepository} repository
+ * @param {StoreSocialRepository} socialRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreSocialUpdater>(CONTAINER_TYPES.StoreSocialUpdater)
+  .to(StoreSocialUpdater);
+
+/**
+ * StoreConfigUpdater
+ * @param {StoreRepository} repository
+ * @param {StoreConfigRepository} configRepository
+ * @author acerohernan
+ */
+container
+  .bind<StoreConfigUpdater>(CONTAINER_TYPES.StoreConfigUpdater)
+  .to(StoreConfigUpdater);
 
 /* INFRASTRUCTURE */
 

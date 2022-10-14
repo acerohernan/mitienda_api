@@ -21,10 +21,10 @@ export type StoreConfigProperties = {
 export class StoreConfig {
   readonly id: StoreConfigId;
   readonly store_id: StoreId;
-  readonly request_dni: boolean;
-  readonly add_delivery_date: boolean;
-  readonly add_comment: boolean;
-  readonly comment: string | null;
+  request_dni: boolean;
+  add_delivery_date: boolean;
+  add_comment: boolean;
+  comment: string | null;
 
   constructor({
     id,
@@ -40,6 +40,18 @@ export class StoreConfig {
     this.add_delivery_date = add_delivery_date;
     this.add_comment = add_comment;
     this.comment = comment;
+  }
+
+  updateConfigInformation(params: {
+    request_dni: boolean;
+    add_delivery_date: boolean;
+    add_comment: boolean;
+    comment: string | null;
+  }) {
+    this.request_dni = params.request_dni;
+    this.add_delivery_date = params.add_delivery_date;
+    this.add_comment = params.add_comment;
+    this.comment = params.comment;
   }
 
   toPrimitives(): StoreConfigPrimitives {
