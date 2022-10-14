@@ -12,6 +12,7 @@ import { UserSessionPostController } from "../controllers/user/UserSessionPostCo
 
 import { StoreCreator } from "../../Context/Store/application/create-store/StoreCreator";
 import { StoreInformationFinder } from "../../Context/Store/application/find-store/StoreInformationFinder";
+import { StoreUpdater } from "../../Context/Store/application/update-store/StoreUpdater";
 import { StoreConfigRepository } from "../../Context/Store/domain/ioc/StoreConfigRepository";
 import { StoreRepository } from "../../Context/Store/domain/ioc/StoreRepository";
 import { StoreSocialRepository } from "../../Context/Store/domain/ioc/StoreSocialRepository";
@@ -30,6 +31,7 @@ import { TypeOrmUserReccoverPasswordRequestRepository } from "../../Context/User
 import { TypeOrmUserRepository } from "../../Context/User/infrastructure/persistence/typeorm/user/TypeOrmUserRepository";
 import { StoreCreatePostController } from "../controllers/store/StoreCreatePostController";
 import { StoreFinderGetController } from "../controllers/store/StoreFinderGetController";
+import { StoreUpdatePutController } from "../controllers/store/StoreUpdatePutController";
 import { UserRecoverPasswordRequestGetController } from "../controllers/user/UserRecoverPasswordRequestGetController";
 import { UserRecoverPasswordRequestPostController } from "../controllers/user/UserRecoverPasswordRequestPostController";
 import { UserRestorePasswordPostController } from "../controllers/user/UserRestorePasswordPostController";
@@ -138,6 +140,15 @@ container
   .bind<StoreFinderGetController>(CONTAINER_TYPES.StoreFinderGetController)
   .to(StoreFinderGetController);
 
+/**
+ * StoreUpdatePutController
+ * @param {StoreUpdater} repository
+ * @author acerohernan
+ */
+container
+  .bind<StoreUpdatePutController>(CONTAINER_TYPES.StoreUpdatePutController)
+  .to(StoreUpdatePutController);
+
 /* APPLICATION SERVICES */
 /**
  * UserCreator
@@ -228,6 +239,13 @@ container.bind<StoreCreator>(CONTAINER_TYPES.StoreCreator).to(StoreCreator);
 container
   .bind<StoreInformationFinder>(CONTAINER_TYPES.StoreInformationFinder)
   .to(StoreInformationFinder);
+
+/**
+ * StoreUpdater
+ * @param {StoreRepository} repository
+ * @author acerohernan
+ */
+container.bind<StoreUpdater>(CONTAINER_TYPES.StoreUpdater).to(StoreUpdater);
 
 /* INFRASTRUCTURE */
 

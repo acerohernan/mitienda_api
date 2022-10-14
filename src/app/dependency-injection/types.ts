@@ -78,6 +78,13 @@ export const CONTAINER_TYPES = {
    */
   StoreFinderGetController: Symbol.for("StoreFinderGetController"),
 
+  /**
+   * StoreUpdatePutController
+   * @param {StoreUpdater} repository
+   * @author acerohernan
+   */
+  StoreUpdatePutController: Symbol.for("StoreUpdatePutController"),
+
   /* APPLICATION SERVICES */
 
   /**
@@ -155,6 +162,13 @@ export const CONTAINER_TYPES = {
    * @author acerohernan
    */
   StoreInformationFinder: Symbol.for("StoreInformationFinder"),
+
+  /**
+   * StoreUpdater
+   * @param {StoreRepository} repository
+   * @author acerohernan
+   */
+  StoreUpdater: Symbol.for("StoreUpdater"),
 
   /* INFRAESTRUCTURE */
 

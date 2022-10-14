@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { EntitySchema } from "typeorm";
 import { Criteria } from "../../../../../Shared/domain/criteria/Criteria";
 import { Nullable } from "../../../../../Shared/domain/Nullable";
+import { UserId } from "../../../../../Shared/domain/UserId";
 import { TypeOrmRepository } from "../../../../../Shared/infrastructure/persistence/typeorm/TypeOrmRepository";
 import { StoreRepository } from "../../../../domain/ioc/StoreRepository";
 import { Store, StorePrimitives } from "../../../../domain/Store";
@@ -29,5 +30,16 @@ export class TypeOrmStoreRepository
     if (!storeInPrimitive) return null;
 
     return Store.fromPrimitives(storeInPrimitive);
+  }
+
+  async searchByUserId(user_id: UserId): Promise<Nullable<Store>> {
+    const repository = await this.repository();
+    const storePrimitives = await repository.findOneBy({
+      user_id: user_id.value,
+    });
+
+    if (!storePrimitives) return null;
+
+    return Store.fromPrimitives(storePrimitives);
   }
 }

@@ -7,16 +7,16 @@ Feature: Get User Session Information
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
-            "password": "Password1",
+            "email": "get1@gmail.com",
+            "password": "Password5",
             "phone": "999113934"
         }
         """
         Then I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test@gmail.com",
-            "password": "Password1"
+            "email": "get1@gmail.com",
+            "password": "Password5"
         }
         """
         And the response should have the property "accessToken"

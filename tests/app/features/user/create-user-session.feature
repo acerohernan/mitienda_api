@@ -7,7 +7,7 @@ Feature: Create user session
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "session1@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -15,7 +15,7 @@ Feature: Create user session
         Then I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "session1@gmail.com",
             "password": "bad_password"
         }
         """
@@ -45,16 +45,16 @@ Feature: Create user session
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test2@gmail.com",
-            "password": "Password1",
+            "email": "session2@gmail.com",
+            "password": "Password2",
             "phone": "999113934"
         }
         """
         Then I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test2@gmail.com",
-            "password": "Password1"
+            "email": "session2@gmail.com",
+            "password": "Password2"
         }
         """
         And the response status code should be 200

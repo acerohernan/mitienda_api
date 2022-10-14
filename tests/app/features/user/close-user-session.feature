@@ -7,7 +7,7 @@ Feature: Close User Session
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "close1@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -23,7 +23,7 @@ Feature: Close User Session
         Given I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test2@gmail.com",
+            "email": "close2@gmail.com",
             "password": "Password1"
         }
         """

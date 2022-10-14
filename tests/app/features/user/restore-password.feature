@@ -7,7 +7,7 @@ Feature: Restore password
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "restore@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -15,7 +15,7 @@ Feature: Restore password
         Then I send a POST request to "/user/auth/forgot-password" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "restore@gmail.com",
             "request_uuid": "76e4db61-72fd-4441-bd5d-730b4886fc19"
         }
         """
@@ -23,8 +23,8 @@ Feature: Restore password
         """
         {
             "code": "76e4db61-72fd-4441-bd5d-730b4886fc19",
-            "password": "Password2",
-            "re_password": "Password2"
+            "password": "NuevaPassword2",
+            "re_password": "NuevaPassword2"
         }
         """
         And the response status code should be 200
@@ -32,8 +32,8 @@ Feature: Restore password
         And I send a POST request to "/user/auth/login" with body:
         """
         {
-            "email": "test@gmail.com",
-            "password": "Password2"
+            "email": "restore@gmail.com",
+            "password": "NuevaPassword2"
         }
         """
         And the response status code should be 200
@@ -56,15 +56,15 @@ Feature: Restore password
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
-            "password": "Password1",
+            "email": "restore2@gmail.com",
+            "password": "NuevaPassword2",
             "phone": "999113934"
         }
         """
         Then I send a POST request to "/user/auth/forgot-password" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "restore2@gmail.com",
             "request_uuid": "da0cc904-2be8-4c7f-b407-50fee37527d3"
         }
         """

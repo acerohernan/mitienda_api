@@ -3,11 +3,13 @@ import assert from "assert";
 import request from "supertest";
 import { application } from "./hooks.steps";
 
+let _request: request.Test;
 let _response: request.Response;
 let _token: string | null = null;
 
 Given("I send a GET request to {string}", async (route: string) => {
-  _response = await request(application.httpServer).get(route);
+  _request = request(application.httpServer).get(route);
+  _response = await _request;
   await wait(200);
 });
 
@@ -18,10 +20,11 @@ Given("I get an access token {string}", (token: string) => {
 Given(
   "I send a POST request to {string} with body:",
   async (route: string, body: string) => {
-    _response = await request(application.httpServer)
+    _request = request(application.httpServer)
       .post(route)
       .send(JSON.parse(body));
     await wait(200);
+    _response = await _request;
   }
 );
 
@@ -30,10 +33,12 @@ Given(
   async (route: string) => {
     if (!_token) throw new Error("The authorization token not exists");
 
-    _response = await request(application.httpServer)
+    _request = request(application.httpServer)
       .get(route)
       .auth(_token, { type: "bearer" });
     await wait(200);
+
+    _response = await _request;
   }
 );
 
@@ -42,10 +47,28 @@ Given(
   async (route: string, body: string) => {
     if (!_token) throw new Error("The authorization token not exists");
 
-    _response = await request(application.httpServer)
+    _request = request(application.httpServer)
       .post(route)
       .auth(_token, { type: "bearer" })
       .send(JSON.parse(body));
+
+    _response = await _request;
+
+    await wait(200);
+  }
+);
+
+Given(
+  "I send an authenticated PUT request to {string} with body:",
+  async (route: string, body: string) => {
+    if (!_token) throw new Error("The authorization token not exists");
+
+    _request = request(application.httpServer)
+      .put(route)
+      .auth(_token, { type: "bearer" })
+      .send(JSON.parse(body));
+
+    _response = await _request;
 
     await wait(200);
   }
@@ -83,6 +106,8 @@ Then(
 /* Debug*/
 Then("the response should be visible in the console", () => {
   console.log(_response.body);
+  console.log(_response.status);
+  console.log(_request.url);
 });
 
 function wait(milliseconds: number) {

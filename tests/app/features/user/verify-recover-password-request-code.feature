@@ -7,7 +7,7 @@ Feature: Verify restore password request code
         Given I send a POST request to "/user/auth/signup" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "restore1@gmail.com",
             "password": "Password1",
             "phone": "999113934"
         }
@@ -15,7 +15,7 @@ Feature: Verify restore password request code
         Then I send a POST request to "/user/auth/forgot-password" with body:
         """
         {
-            "email": "test@gmail.com",
+            "email": "restore1@gmail.com",
             "request_uuid": "76e4db61-72fd-4441-bd5d-730b4886fc19"
         }
         """
@@ -24,6 +24,6 @@ Feature: Verify restore password request code
         And the response should be empty 
     
     Scenario: A invalid restore password request code
-        Given I send a GET request to "/user/auth/verify-code/sfjsedfjiwef"
+        Given I send a GET request to "/user/auth/verify-code/invalid-code"
         Then the response status code should be 400
         And the response should have an error message 

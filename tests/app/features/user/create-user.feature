@@ -48,4 +48,23 @@ Feature: Create User
         Then the response status code should be 201
         And the response should be empty
     
-    
+    Scenario: A registered email
+        Given I send a POST request to "/user/auth/signup" with body:
+        """
+        {
+            "email": "create-repeat@gmail.com",
+            "password": "Password2",
+            "phone": "999113934"
+        }
+        """
+        Then the response status code should be 201
+        And I send a POST request to "/user/auth/signup" with body:
+        """
+        {
+            "email": "create-repeat@gmail.com",
+            "password": "Password2",
+            "phone": "999113934"
+        }
+        """
+        And the response status code should be 400
+        And the response should have an error message

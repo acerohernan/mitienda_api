@@ -113,22 +113,9 @@ export class StoreCreator {
   private async verifyIfExistAnStoreWithTheSameUserId(user_id: string) {
     const userId = new UserId(user_id);
 
-    const criteria = new Criteria(
-      new Filters([
-        Filter.fromValues({
-          field: "user_id",
-          operator: Operator.EQUAL,
-          value: userId.value,
-        }),
-      ]),
-      Order.none(),
-      1,
-      0
-    );
+    const store = await this.repository.searchByUserId(userId);
 
-    const user = (await this.repository.matching(criteria))[0];
-
-    if (user)
+    if (store)
       throw new DuplicatedEntityException(`The user already have an store.`);
   }
 

@@ -46,11 +46,11 @@ export class Store extends AgregateRoot {
   readonly user_id: UserId;
   readonly tier_id: string;
   readonly country_id: StoreCountryId;
-  readonly currency_id: StoreCurrencyId;
-  readonly whatsapp: StoreWhatsapp;
-  readonly type: string;
+  currency_id: StoreCurrencyId;
+  whatsapp: StoreWhatsapp;
+  type: string;
+  name: StoreName;
   readonly expiration_date: Date;
-  readonly name: StoreName;
   readonly domain: StoreDomain;
   readonly logo_img: string | null;
   readonly description: string | null;
@@ -96,6 +96,18 @@ export class Store extends AgregateRoot {
     /* Create the domian event store.created */
 
     return store;
+  }
+
+  public updateGeneralInformation(params: {
+    currency_id: StoreCurrencyId;
+    whatsapp: StoreWhatsapp;
+    type: string;
+    name: StoreName;
+  }) {
+    this.currency_id = params.currency_id;
+    this.whatsapp = params.whatsapp;
+    this.type = params.type;
+    this.name = params.name;
   }
 
   toPrimitives(): StorePrimitives {
